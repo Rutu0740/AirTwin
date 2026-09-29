@@ -1,0 +1,9 @@
+<svg class="w-full h-full object-cover opacity-90" fill="none" viewbox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<!-- Hotspot Soft Gaussian Diffusion Plumes (No neon, soft atmospheric tone) -->
+<radialgradient cx="50%" cy="50%" id="plumeShivaji" r="50%">
+<stop offset="0%" stop-color="#b86f67" stop-opacity="0.32"></stop>
+<stop offset="45%" stop-color="#cba068" stop-opacity="0.18"></stop>
+<stop offset="100%" stop-color="#121413" stop-opacity="0"></stop>
+</radialgradient>
+<radialgra
