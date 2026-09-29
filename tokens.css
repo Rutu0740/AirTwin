@@ -1,0 +1,29 @@
+:root {
+  --color-background: #121413;
+  --color-surface-container-lowest: #0d0f0e;
+  --color-surface-container-low: #1a1c1b;
+  --color-surface-container: #1e201f;
+  --color-surface-container-high: #282a29;
+  --color-surface-container-highest: #333534;
+  --color-on-surface: #e2e3e0;
+  --color-on-surface-variant: #c2c8c1;
+  --color-outline: #8c928c;
+  --color-outline-variant: #424843;
+  --color-primary: #adceb8;
+  --color-on-primary: #193627;
+  --color-primary-container: #8faf9a;
+  --color-secondary: #b5cacf;
+  --color-tertiary: #ecbf83;
+  --color-tertiary-container: #cba068;
+  --color-error: #ffb4ab;
+}
+body {
+    background-color: var(--color-background);
+    color: var(--color-on-surface);
+    font-family: 'Inter', sans-serif;
+}
+h1, h2, h3, h4, h5, h6 { font-family: 'Manrope', sans-serif; }
+.badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+.badge-observed { background: var(--color-surface-container-high); color: var(--color-primary); }
+.badge-forecast { background: var(--color-surface-container-high); color: var(--color-secondary); }
+.badge-simulated { background: var(--color-primary-container); color: var(--color-on-primary); }

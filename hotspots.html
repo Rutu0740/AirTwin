@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}
+/* Leaflet structural overrides */
+.leaflet-container {
+    background: transparent !important;
+}
+.leaflet-layer {
+    filter: brightness(0.6) contrast(1.2);
+}
+html.light-theme .leaflet-layer {
+    filter: none;
+}
+</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#032113", "inverse-surface": "#e2e3e0", "on-surface-variant": "#c2c8c1", "surface-tint": "#adceb8", "primary-container": "#8faf9a", "tertiary-fixed": "#ffddb4", "on-error": "#690005", "outline-variant": "#424843", "background": "#121413", "on-tertiary-fixed": "#291800", "on-error-container": "#ffdad6", "tertiary": "#ecbf83", "on-background": "#e2e3e0", "on-tertiary": "#452b00", "outline": "#8c928c", "inverse-primary": "#476553", "on-secondary-fixed-variant": "#364a4e", "on-primary": "#193627", "primary-fixed-dim": "#adceb8", "on-tertiary-container": "#543707", "inverse-on-surface": "#2f3130", "on-secondary": "#203437", "tertiary-fixed-dim": "#ecbf83", "surface-bright": "#383a38", "surface-container-highest": "#333534", "error": "#ffb4ab", "surface-container-low": "#1a1c1b", "surface": "#121413", "error-container": "#93000a", "on-tertiary-fixed-variant": "#604111", "on-surface": "#e2e3e0", "surface-variant": "#333534", "on-secondary-fixed": "#091e22", "on-primary-fixed-variant": "#304d3c", "secondary": "#b5cacf", "on-secondary-container": "#a3b9bd", "tertiary-container": "#cba068", "secondary-container": "#364a4e", "secondary-fixed": "#d0e6eb", "primary": "#adceb8", "surface-dim": "#121413", "secondary-fixed-dim": "#b5cacf", "primary-fixed": "#c9ebd4", "surface-container": "#1e201f", "on-primary-container": "#264332", "surface-container-lowest": "#0d0f0e", "surface-container-high": "#282a29" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "margin-desktop": "2rem", "margin": "1rem", "gutter": "1rem", "space-xs": "0.25rem", "space-xl": "2.5rem", "space-sm": "0.5rem", "space-md": "1rem", "space-lg": "1.5rem", "gutter-desktop": "1.5rem" }, "fontFamily": { "body-sm": ["Inter"], "headline-xl": ["Manrope"], "code-metric": ["Inter"], "headline-lg": ["Manrope"], "title-sm": ["Inter"], "body-md": ["Inter"], "display-lg-mobile": ["Manrope"], "headline-md": ["Manrope"], "body-lg": ["Inter"], "label-md": ["Inter"], "label-sm": ["Inter"], "display-lg": ["Manrope"] }, "fontSize": { "body-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}], "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "600"}], "code-metric": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}], "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}], "title-sm": ["15px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "600"}], "body-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400"}], "display-lg-mobile": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "600"}], "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "500"}], "body-lg": ["15px", {"lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400"}], "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}], "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500"}], "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}] } } } };</script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link href="/intro.css?v=4" rel="stylesheet"/>
+</head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary min-h-screen flex flex-col"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-gutter-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md shrink-0"><img alt="UrbanAir Twin Minimal Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XO6_tDByOL1sPBx-a585Vr97qtjvT1TPzq6q4qvx4rZpjcQmEw5FVe9AJpQ2IS1WsKCoKkZO0BwLFIO3wG454ByWYyS13dRob2kaqYCZ7Bly8zhWghZmgtwTsRJX7hlaFenacK2koZxoS_RtGeDEGAxZNnNlDWuP-G8QxsxAI1dFp9-HWC735X2TMAMK8tnKFYEGaDql25OqG0jbpOnrA5YCB8uneNHkBtHJCLYT4Glxj_tXoBYzkVsbgg"/><div class="flex flex-col"><span class="font-title-sm text-title-sm text-on-surface tracking-tight leading-none">UrbanAir Twin</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-none mt-1">Metropolitan Intelligence</span></div></div><nav class="hidden md:flex items-center gap-space-xs p-1 bg-surface-container rounded-lg" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="px-space-md py-1.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="overview" href="/overview/">Overview</a><a aria-current="page" class="px-space-md py-1.5 transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm" data-path="hotspots" href="/hotspots/">Hotspots</a><a class="px-space-md py-1.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="forecast" href="/forecast/">Forecast</a><a class="px-space-md py-1.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="scenario-lab" href="/scenario-lab/">Scenario Lab</a></nav><div class="flex items-center gap-space-md shrink-0"><div class="hidden sm:flex items-center gap-space-sm px-space-md py-1.5 rounded-lg bg-surface-container"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-40"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span><span class="font-body-sm text-body-sm text-on-surface font-medium">Pune, India</span><span class="font-label-sm text-label-sm text-outline">|</span><span class="font-code-metric text-code-metric text-on-surface-variant">14:30 IST</span><span class="font-label-sm text-label-sm text-outline hidden lg:inline">|</span><span class="font-label-sm text-label-sm text-on-surface-variant hidden lg:inline">Municipal Live Feed</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><button id="theme-toggle" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 border border-outline-variant hover:bg-surface-container-high transition-colors ml-2">
+  <span class="material-symbols-outlined text-on-surface text-[18px]">light_mode</span>
+</button></div></div></header><main class="w-full pt-16 bg-surface flex-1 flex flex-col"><div class="flex flex-col w-full">
+<!-- Page Header Container -->
+<section class="w-full px-margin md:px-margin-desktop pt-space-lg pb-space-md">
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-space-xs mb-1">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Spatial Diagnostics</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">• Sensor Cluster Telemetry</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Active Hotspots & Factors</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-1">
+          Real-time monitoring of critical zones across Pune and likely contributing influences.
+        </p>
+</div>
+<!-- Quick Filter Pills -->
+<div class="flex flex-wrap items-center gap-space-xs p-1 bg-surface-container rounded-lg" id="filter-group">
+<button class="filter-btn px-space-md py-1.5 rounded font-label-md text-label-md bg-primary text-on-primary font-medium transition-all shadow-sm" data-filter="all" type="button">
+          All Zones (6)
+        </button>
+<button class="filter-btn px-space-md py-1.5 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-filter="high" type="button">
+          High Priority (3)
+        </button>
+<button class="filter-btn px-space-md py-1.5 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-filter="industrial" type="button">
+          Industrial
+        </button>
+<button class="filter-btn px-space-md py-1.5 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-filter="transit" type="button">
+          Transit Corridors
+        </button>
+</div>
+</div>
+</section>
+<!-- Main Dual Split Workspace (55% / 45%) -->
+<section class="w-full px-margin md:px-margin-desktop pb-space-xl">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT SIDE: 55% (~7 of 12 cols) Hotspots & Regional Canvas -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<!-- Geographic Map Canvas Overview -->
+<div class="relative w-full rounded-xl bg-surface-container-low overflow-hidden shadow-md">
+<div class="absolute top-space-md left-space-md z-10 flex items-center gap-space-sm bg-surface-container-highest/90 backdrop-blur-sm px-space-md py-1 rounded">
+<span class="material-symbols-outlined text-primary text-[18px]">layers</span>
+<span class="font-label-sm text-label-sm text-on-surface font-medium">Pune Basin Sensor Grid</span>
+<span class="font-code-metric text-code-metric text-on-surface-variant ml-1">18.5204° N, 73.8567° E</span>
+</div>
+<div class="absolute top-space-md right-space-md z-10 flex items-center gap-space-xs bg-surface-container-highest/90 backdrop-blur-sm px-space-sm py-1 rounded">
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-tertiary">
+<span class="w-2 h-2 rounded-full bg-tertiary inline-block"></span>
+              Moderate
+            </div>
+<span class="text-outline-variant text-[10px] mx-1">|</span>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-error">
+<span class="w-2 h-2 rounded-full bg-error inline-block"></span>
+              High Alert
+            </div>
+</div>
+<!-- Pune Geographic Map Provider -->
+<div class="w-full h-56 md:h-64 bg-cover bg-center opacity-85" data-location="Shivajinagar, Pune, Maharashtra, India" style=""></div>
+<!-- Interactive Node Overlays on Map -->
+<!-- CORRECT LEAFLET MAP CONTAINER -->
+<div id="map" class="absolute inset-0 z-0"></div>
+<div class="absolute inset-0 pointer-events-none flex items-center justify-center">
+<!-- Simulated Pune Spatial Map Grid & Nodes -->
+<div class="relative w-full h-full">
+<!-- Active Node: Shivajinagar Central -->
+<div class="absolute top-[46%] left-[48%] pointer-events-auto group cursor-pointer" onclick="selectStation('shivajinagar')">
+<span class="relative flex h-6 w-6 items-center justify-center">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-40"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-error shadow-lg"></span>
+</span>
+<span class="absolute -top-6 -left-8 bg-surface-container-highest/95 backdrop-blur-sm px-1.5 py-0.5 rounded font-label-sm text-label-sm text-on-surface shadow-md whitespace-nowrap">
+                  Shivajinagar (118)
+                </span>
+</div>
+<!-- Node: Hadapsar -->
+<div class="absolute top-[58%] left-[70%] pointer-events-auto cursor-pointer" onclick="selectStation('hadapsar')">
+<span class="flex h-3 w-3 rounded-full bg-error shadow-sm opacity-90 hover:scale-125 transition-transform"></span>
+<span class="hidden md:inline-block absolute top-3 -left-4 text-on-surface-variant font-label-sm text-[10px] whitespace-nowrap">Hadapsar</span>
+</div>
+<!-- Node: Bhosari -->
+<div class="absolute top-[22%] left-[42%] pointer-events-auto cursor-pointer" onclick="selectStation('bhosari')">
+<span class="flex h-3 w-3 rounded-full bg-error shadow-sm opacity-90 hover:scale-125 transition-transform"></span>
+<span class="hidden md:inline-block absolute top-3 -left-4 text-on-surface-variant font-label-sm text-[10px] whitespace-nowrap">Bhosari</span>
+</div>
+<!-- Node: Swargate -->
+<div class="absolute top-[62%] left-[47%] pointer-events-auto cursor-pointer" onclick="selectStation('swargate')">
+<span class="flex h-3 w-3 rounded-full bg-tertiary shadow-sm opacity-90 hover:scale-125 transition-transform"></span>
+</div>
+<!-- Node: Katraj -->
+<div class="absolute top-[78%] left-[46%] pointer-events-auto cursor-pointer" onclick="selectStation('katraj')">
+<span class="flex h-3 w-3 rounded-full bg-tertiary shadow-sm opacity-90 hover:scale-125 transition-transform"></span>
+</div>
+<!-- Node: Kothrud -->
+<div class="absolute top-[52%] left-[28%] pointer-events-auto cursor-pointer" onclick="selectStation('kothrud')">
+<span class="flex h-3 w-3 rounded-full bg-tertiary shadow-sm opacity-90 hover:scale-125 transition-transform"></span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-2 left-space-md right-space-md flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm bg-surface-container-lowest/80 backdrop-blur-sm px-space-md py-1 rounded">
+<span>Spatial Interpolation: 50m Micro-Scale Resolution</span>
+<span class="font-code-metric text-code-metric">Telemetry Delay: 1.2s</span>
+</div>
+</div>
+<!-- Hotspots Interactive List -->
+<div class="flex flex-col gap-space-xs" id="hotspot-list">
+<!-- 1. Shivajinagar Central (Default Selected) -->
+<div class="hotspot-card w-full p-space-md rounded-lg bg-surface-container-high transition-all cursor-pointer shadow-sm hover:shadow-md" data-category="transit" data-priority="high" id="card-shivajinagar" onclick="selectStation('shivajinagar')">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-start sm:items-center gap-space-md">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-error text-[20px]">warning</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm">
+<h3 class="font-title-sm text-title-sm text-on-surface">Shivajinagar Central</h3>
+<span class="px-space-xs py-0.5 rounded text-[11px] font-medium bg-error/15 text-error">High</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Urban Canyon & Transit</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Heavy congestion along JM Road • Construction along Pune Metro corridor</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md pl-10 sm:pl-0">
+<div class="text-right">
+<span class="font-code-metric text-code-metric text-on-surface-variant uppercase">PM2.5</span>
+<div class="font-headline-md text-headline-md text-on-surface tabular-nums">118 <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">µg/m³</span></div>
+</div>
+<a class="px-space-sm py-1.5 rounded bg-surface-container hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center gap-1 transition-colors shrink-0" href="#">
+<span>Test in Scenario Lab</span>
+<span class="material-symbols-outlined text-[16px] text-primary">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- 2. Hadapsar Industrial -->
+<div class="hotspot-card w-full p-space-md rounded-lg bg-surface-container hover:bg-surface-container-high transition-all cursor-pointer" data-category="industrial" data-priority="high" id="card-hadapsar" onclick="selectStation('hadapsar')">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-start sm:items-center gap-space-md">
+<div class="w-8 h-8 rounded bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-error text-[20px]">factory</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm">
+<h3 class="font-title-sm text-title-sm text-on-surface">Hadapsar Industrial</h3>
+<span class="px-space-xs py-0.5 rounded text-[11px] font-medium bg-error/15 text-error">High</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Industrial Cluster</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Combustion plumes & freight freight hub staging area</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md pl-10 sm:pl-0">
+<div class="text-right">
+<span class="font-code-metric text-code-metric text-on-surface-variant uppercase">PM2.5</span>
+<div class="font-headline-md text-headline-md text-on-surface tabular-nums">104 <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">µg/m³</span></div>
+</div>
+<a class="px-space-sm py-1.5 rounded bg-surface-container-low hover:bg-surface-container-highest text-on-surface font-label-md text-label-md flex items-center gap-1 transition-colors shrink-0" href="#">
+<span>Test in Scenario Lab</span>
+<span class="material-symbols-outlined text-[16px] text-primary">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- 3. Bhosari MIDC -->
+<div class="hotspot-card w-full p-space-md rounded-lg bg-surface-container hover:bg-surface-container-high transition-all cursor-pointer" data-category="industrial" data-priority="high" id="card-bhosari" onclick="selectStation('bhosari')">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-start sm:items-center gap-space-md">
+<div class="w-8 h-8 rounded bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-error text-[20px]">precision_manufacturing</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm">
+<h3 class="font-title-sm text-title-sm text-on-surface">Bhosari MIDC</h3>
+<span class="px-space-xs py-0.5 rounded text-[11px] font-medium bg-error/15 text-error">High</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Manufacturing Sector</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Automotive parts fabrication, boiler units, and diesel generators</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md pl-10 sm:pl-0">
+<div class="text-right">
+<span class="font-code-metric text-code-metric text-on-surface-variant uppercase">PM2.5</span>
+<div class="font-headline-md text-headline-md text-on-surface tabular-nums">112 <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">µg/m³</span></div>
+</div>
+<a class="px-space-sm py-1.5 rounded bg-surface-container-low hover:bg-surface-container-highest text-on-surface font-label-md text-label-md flex items-center gap-1 transition-colors shrink-0" href="#">
+<span>Test in Scenario Lab</span>
+<span class="material-symbols-outlined text-[16px] text-primary">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- 4. Swargate Transit Hub -->
+<div class="hotspot-card w-full p-space-md rounded-lg bg-surface-container hover:bg-surface-container-high transition-all cursor-pointer" data-category="transit" data-priority="moderate" id="card-swargate" onclick="selectStation('swargate')">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-start sm:items-center gap-space-md">
+<div class="w-8 h-8 rounded bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary text-[20px]">directions_bus</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm">
+<h3 class="font-title-sm text-title-sm text-on-surface">Swargate Transit Hub</h3>
+<span class="px-space-xs py-0.5 rounded text-[11px] font-medium bg-tertiary/15 text-tertiary">Moderate</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Inter-City Terminal</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Heavy state bus idling and multi-point intersection congestion</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md pl-10 sm:pl-0">
+<div class="text-right">
+<span class="font-code-metric text-code-metric text-on-surface-variant uppercase">PM2.5</span>
+<div class="font-headline-md text-headline-md text-on-surface tabular-nums">98 <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">µg/m³</span></div>
+</div>
+<a class="px-space-sm py-1.5 rounded bg-surface-container-low hover:bg-surface-container-highest text-on-surface font-label-md text-label-md flex items-center gap-1 transition-colors shrink-0" href="#">
+<span>Test in Scenario Lab</span>
+<span class="material-symbols-outlined text-[16px] text-primary">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- 5. Katraj Valley -->
+<div class="hotspot-card w-full p-space-md rounded-lg bg-surface-container hover:bg-surface-container-high transition-all cursor-pointer" data-category="transit" data-priority="moderate" id="card-katraj" onclick="selectStation('katraj')">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-start sm:items-center gap-space-md">
+<div class="w-8 h-8 rounded bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary text-[20px]">terrain</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm">
+<h3 class="font-title-sm text-title-sm text-on-surface">Katraj Valley</h3>
+<span class="px-space-xs py-0.5 rounded text-[11px] font-medium bg-tertiary/15 text-tertiary">Moderate</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Southern Pass</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Topographic trapping of bypass highway truck emissions</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md pl-10 sm:pl-0">
+<div class="text-right">
+<span class="font-code-metric text-code-metric text-on-surface-variant uppercase">PM2.5</span>
+<div class="font-headline-md text-headline-md text-on-surface tabular-nums">91 <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">µg/m³</span></div>
+</div>
+<a class="px-space-sm py-1.5 rounded bg-surface-container-low hover:bg-surface-container-highest text-on-surface font-label-md text-label-md flex items-center gap-1 transition-colors shrink-0" href="#">
+<span>Test in Scenario Lab</span>
+<span class="material-symbols-outlined text-[16px] text-primary">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- 6. Kothrud West -->
+<div class="hotspot-card w-full p-space-md rounded-lg bg-surface-container hover:bg-surface-container-high transition-all cursor-pointer" data-category="transit" data-priority="moderate" id="card-kothrud" onclick="selectStation('kothrud')">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-start sm:items-center gap-space-md">
+<div class="w-8 h-8 rounded bg-surface-container-low flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary text-[20px]">home_work</span>
+</div>
+<div>
+<div class="flex items-center gap-space-sm">
+<h3 class="font-title-sm text-title-sm text-on-surface">Kothrud West</h3>
+<span class="px-space-xs py-0.5 rounded text-[11px] font-medium bg-tertiary/15 text-tertiary">Moderate</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Residential Corridor</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Paud Road artery traffic with good vegetative dispersion buffer</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md pl-10 sm:pl-0">
+<div class="text-right">
+<span class="font-code-metric text-code-metric text-on-surface-variant uppercase">PM2.5</span>
+<div class="font-headline-md text-headline-md text-on-surface tabular-nums">64 <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">µg/m³</span></div>
+</div>
+<a class="px-space-sm py-1.5 rounded bg-surface-container-low hover:bg-surface-container-highest text-on-surface font-label-md text-label-md flex items-center gap-1 transition-colors shrink-0" href="#">
+<span>Test in Scenario Lab</span>
+<span class="material-symbols-outlined text-[16px] text-primary">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT SIDE: 45% (~5 of 12 cols) Dedicated Explanation Panel "WHY HERE?" -->
+<div class="lg:col-span-5 flex flex-col gap-space-md">
+<!-- Explanation Card Container -->
+<div class="w-full bg-surface-container-low rounded-xl p-space-lg shadow-md relative overflow-hidden">
+<!-- Subtle atmospheric accent gradient -->
+<div class="absolute -right-16 -top-16 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Inspector Header -->
+<div class="pb-space-md">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">psychology_alt</span>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider font-semibold">Causal Attribution</span>
+</div>
+<span class="px-space-xs py-0.5 rounded text-[11px] font-medium bg-error/15 text-error" id="panel-station-badge">High Priority Zone</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-1" id="panel-title">
+              WHY HERE? — Shivajinagar
+            </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-relaxed" id="panel-subtitle">
+              Likely contributing factors based on urban patterns and meteorological conditions.
+            </p>
+</div>
+<!-- Micro Spatial Metrics Strip -->
+<div class="grid grid-cols-3 gap-space-xs my-space-md p-space-sm bg-surface-container rounded-lg">
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider">Wind Vector</span>
+<span class="font-code-metric text-code-metric text-on-surface font-semibold mt-0.5" id="meta-wind">NW • 4.2 km/h</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider">Inversion Deck</span>
+<span class="font-code-metric text-code-metric text-on-surface font-semibold mt-0.5" id="meta-inversion">240m (Low)</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider">Baseline Delta</span>
+<span class="font-code-metric text-code-metric text-error font-semibold mt-0.5" id="meta-delta">+48% vs Avg</span>
+</div>
+</div>
+<!-- Human-Language Breakdown: Contribution Factors -->
+<div class="space-y-space-md" id="factors-container">
+<!-- 1. Traffic & Commute Congestion -->
+<div class="space-y-1 factor-item">
+<div class="flex items-center justify-between text-on-surface">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-secondary">commute</span>
+<span class="font-title-sm text-body-md font-medium factor-name">Traffic & Commute Congestion</span>
+</div>
+<span class="font-code-metric text-code-metric text-on-surface font-semibold factor-pct">41%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error rounded-full transition-all duration-500 factor-bar" style="width: 41%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant factor-desc">
+                High vehicular density along JM Road and FC Road corridors, stop-and-go junction idling.
+              </p>
+</div>
+<!-- 2. Meteorological Stagnation -->
+<div class="space-y-1 factor-item">
+<div class="flex items-center justify-between text-on-surface">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-secondary">air</span>
+<span class="font-title-sm text-body-md font-medium factor-name">Meteorological Stagnation</span>
+</div>
+<span class="font-code-metric text-code-metric text-on-surface font-semibold factor-pct">23%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full transition-all duration-500 factor-bar" style="width: 23%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant factor-desc">
+                Low evening boundary layer height (240m) reducing atmospheric vertical mixing.
+              </p>
+</div>
+<!-- 3. Road & Construction Dust -->
+<div class="space-y-1 factor-item">
+<div class="flex items-center justify-between text-on-surface">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-secondary">construction</span>
+<span class="font-title-sm text-body-md font-medium factor-name">Road & Construction Dust</span>
+</div>
+<span class="font-code-metric text-code-metric text-on-surface font-semibold factor-pct">18%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container rounded-full transition-all duration-500 factor-bar" style="width: 18%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant factor-desc">
+                Surface re-suspension and active metro line civil works along corridor shoulders.
+              </p>
+</div>
+<!-- 4. Industrial Inflow -->
+<div class="space-y-1 factor-item">
+<div class="flex items-center justify-between text-on-surface">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-secondary">factory</span>
+<span class="font-title-sm text-body-md font-medium factor-name">Industrial Inflow</span>
+</div>
+<span class="font-code-metric text-code-metric text-on-surface font-semibold factor-pct">11%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full transition-all duration-500 factor-bar" style="width: 11%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant factor-desc">
+                North-westerly dispersion from industrial manufacturing clusters along Pimpri corridor.
+              </p>
+</div>
+<!-- 5. Regional Agricultural Conditions -->
+<div class="space-y-1 factor-item">
+<div class="flex items-center justify-between text-on-surface">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-secondary">eco</span>
+<span class="font-title-sm text-body-md font-medium factor-name">Regional Agricultural Conditions</span>
+</div>
+<span class="font-code-metric text-code-metric text-on-surface font-semibold factor-pct">7%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary-container rounded-full transition-all duration-500 factor-bar" style="width: 7%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant factor-desc">
+                Peripheral seasonal biomass drift across the western basin borders.
+              </p>
+</div>
+</div>
+<!-- Scientific Reassurance Note -->
+<div class="mt-space-lg p-space-sm rounded bg-surface-container flex items-start gap-space-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">verified</span>
+<p class="font-body-sm text-body-sm leading-snug">
+              Contributing factors are estimated by the atmospheric twin to provide actionable municipal guidance.
+            </p>
+</div>
+<!-- Primary Lab CTA -->
+<div class="mt-space-md">
+<a class="w-full py-2.5 px-space-md rounded bg-primary text-on-primary font-title-sm text-title-sm font-semibold flex items-center justify-center gap-space-xs shadow-md hover:opacity-90 active:scale-[0.99] transition-all" href="#">
+<span>Explore Countermeasures in Scenario Lab</span>
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</a>
+</div>
+</div>
+<!-- Municipal Advisory Insight Box -->
+<div class="w-full bg-surface-container rounded-xl p-space-md shadow-sm">
+<div class="flex items-center gap-space-xs mb-1">
+<span class="material-symbols-outlined text-tertiary text-[18px]">lightbulb</span>
+<span class="font-title-sm text-title-sm text-on-surface">Immediate Intervention Opportunity</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Traffic light synchronization between Sancheti Chowk and Natraj junction combined with misting runs between 17:00–19:30 could mitigate up to <strong>19%</strong> of local PM2.5 elevation.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Script for Station Switching & Interactive Filters (Pure Vanilla, Zero Jargon) -->
+<script>
+    const stationData = {
+      shivajinagar: {
+        title: "WHY HERE? — Shivajinagar",
+        subtitle: "Likely contributing factors based on urban patterns and meteorological conditions",
+        badge: "High Priority Zone",
+        badgeClass: "bg-error/15 text-error",
+        wind: "NW • 4.2 km/h",
+        inversion: "240m (Low)",
+        delta: "+48% vs Avg",
+        factors: [
+          { name: "Traffic & Commute Congestion", icon: "commute", pct: 41, color: "bg-error", desc: "High vehicular density along JM Road and FC Road corridors, stop-and-go junction idling." },
+          { name: "Meteorological Stagnation", icon: "air", pct: 23, color: "bg-tertiary", desc: "Low evening boundary layer height (240m) reducing atmospheric vertical mixing." },
+          { name: "Road & Construction Dust", icon: "construction", pct: 18, color: "bg-tertiary-container", desc: "Surface re-suspension and active metro line civil works along corridor shoulders." },
+          { name: "Industrial Inflow", icon: "factory", pct: 11, color: "bg-secondary", desc: "North-westerly dispersion from industrial manufacturing clusters along Pimpri corridor." },
+          { name: "Regional Agricultural Conditions", icon: "eco", pct: 7, color: "bg-primary-container", desc: "Peripheral seasonal biomass drift across the western basin borders." }
+        ]
+      },
+      hadapsar: {
+        title: "WHY HERE? — Hadapsar",
+        subtitle: "Key industrial combustion and logistics emissions dominating regional air envelope",
+        badge: "High Priority Zone",
+        badgeClass: "bg-error/15 text-error",
+        wind: "E • 3.1 km/h",
+        inversion: "290m (Medium-Low)",
+        delta: "+39% vs Avg",
+        factors: [
+          { name: "Industrial Emissions & Boilers", icon: "factory", pct: 44, color: "bg-error", desc: "Continuous operations from metal casting, processing units, and logistics centers." },
+          { name: "Heavy Freight Transit", icon: "local_shipping", pct: 26, color: "bg-tertiary", desc: "Concentrated heavy commercial vehicles and diesel engine bypass activity." },
+          { name: "Meteorological Trapping", icon: "air", pct: 15, color: "bg-tertiary-container", desc: "Calm surface wind conditions slowing plume dispersal over eastern plains." },
+          { name: "Road Dust & Re-suspension", icon: "construction", pct: 10, color: "bg-secondary", desc: "Heavy wheel passes stirring up dry soil along unpaved industrial bypass lanes." },
+          { name: "Municipal Waste Management", icon: "delete_sweep", pct: 5, color: "bg-primary-container", desc: "Isolated open thermal burning in peripheral processing grounds." }
+        ]
+      },
+      bhosari: {
+        title: "WHY HERE? — Bhosari MIDC",
+        subtitle: "Manufacturing clusters and captive diesel generators driving persistent peaks",
+        badge: "High Priority Zone",
+        badgeClass: "bg-error/15 text-error",
+        wind: "NNE • 5.0 km/h",
+        inversion: "310m (Moderate)",
+        delta: "+44% vs Avg",
+        factors: [
+          { name: "Manufacturing & Metallurgy", icon: "precision_manufacturing", pct: 47, color: "bg-error", desc: "High density of fabrication workshops, boiler furnaces, and foundry operations." },
+          { name: "Diesel Backup Generators", icon: "electric_bolt", pct: 22, color: "bg-tertiary", desc: "Scheduled industrial power shifts generating localized fuel emissions." },
+          { name: "Commercial Logistics Traffic", icon: "local_shipping", pct: 17, color: "bg-tertiary-container", desc: "Container transport trucks traversing the spine road between shifts." },
+          { name: "Construction & Expansion", icon: "architecture", pct: 9, color: "bg-secondary", desc: "Ongoing factory floor civil expansions and warehouse construction dust." },
+          { name: "Micro-Meteorology", icon: "air", pct: 5, color: "bg-primary-container", desc: "Localized surface wind shear pushing plumes toward southern residential edges." }
+        ]
+      },
+      swargate: {
+        title: "WHY HERE? — Swargate Transit",
+        subtitle: "Public transportation interchange idling and high pedestrian density intersection",
+        badge: "Moderate Priority",
+        badgeClass: "bg-tertiary/15 text-tertiary",
+        wind: "W • 3.8 km/h",
+        inversion: "340m (Standard)",
+        delta: "+22% vs Avg",
+        factors: [
+          { name: "Transit Bus Idling & Acceleration", icon: "directions_bus", pct: 49, color: "bg-tertiary", desc: "Over 800 daily intercity and city bus movements around terminal bays." },
+          { name: "Junction Congestion", icon: "traffic", pct: 24, color: "bg-tertiary-container", desc: "Multiple converging flyover ramps creating stop-and-start urban bottlenecks." },
+          { name: "Street-level Dust & Soil", icon: "scatter_plot", pct: 14, color: "bg-secondary", desc: "High foot-traffic and tire friction along aged road surface layers." },
+          { name: "Local Commercial Kitchens", icon: "soup_kitchen", pct: 8, color: "bg-primary-container", desc: "Dense grouping of street food stalls utilizing charcoal and gas fuel." },
+          { name: "Regional Inflow", icon: "air", pct: 5, color: "bg-surface-tint", desc: "Dispersed background particulate drift from southern valleys." }
+        ]
+      },
+      katraj: {
+        title: "WHY HERE? — Katraj Valley",
+        subtitle: "Topographical valley effect concentrating highway emissions along southern gateway",
+        badge: "Moderate Priority",
+        badgeClass: "bg-tertiary/15 text-tertiary",
+        wind: "SW • 6.4 km/h",
+        inversion: "280m (Valley Inversion)",
+        delta: "+18% vs Avg",
+        factors: [
+          { name: "Highway Bypass Freight", icon: "rv_hookup", pct: 39, color: "bg-tertiary", desc: "Continuous uphill transit of overloaded commercial trucks on Mumbai-Bengaluru bypass." },
+          { name: "Valley Air Trapping", icon: "terrain", pct: 33, color: "bg-tertiary-container", desc: "Surrounding hill ridges form a basin trapping nighttime cooler air." },
+          { name: "Construction & Soil Grading", icon: "terrain", pct: 14, color: "bg-secondary", desc: "Hill slope property development and quarrying activity at southern edge." },
+          { name: "Suburban Traffic Fleets", icon: "commute", pct: 9, color: "bg-primary-container", desc: "Commuter feeder two-wheelers and shared auto-rickshaw density." },
+          { name: "Biomass Drift", icon: "eco", pct: 5, color: "bg-surface-tint", desc: "Valley breezes carrying peripheral open leaf compost clearing smoke." }
+        ]
+      },
+      kothrud: {
+        title: "WHY HERE? — Kothrud West",
+        subtitle: "Generally well-buffered residential basin with focused arterial peaks",
+        badge: "Moderate Priority",
+        badgeClass: "bg-tertiary/15 text-tertiary",
+        wind: "WNW • 4.8 km/h",
+        inversion: "410m (Good)",
+        delta: "+2% vs Avg",
+        factors: [
+          { name: "Peak Commute Artery", icon: "commute", pct: 38, color: "bg-tertiary", desc: "Evening rush hour concentration along Paud Road and Karve Road intersections." },
+          { name: "Ongoing Metro Line Work", icon: "construction", pct: 28, color: "bg-tertiary-container", desc: "Localized excavation dust and temporary traffic lane realignments." },
+          { name: "Domestic Activity", icon: "home", pct: 16, color: "bg-secondary", desc: "Dense residential utility generators and evening food preparation." },
+          { name: "Vegetation & Canopy Trapping", icon: "forest", pct: 10, color: "bg-primary-container", desc: "Dense green cover shields outer winds but slightly limits street street-level ventilation." },
+          { name: "Regional Baseline", icon: "air", pct: 8, color: "bg-surface-tint", desc: "Standard Pune basin baseline ambient particulate concentration." }
+        ]
+      }
+    };
+
+    function selectStation(stationKey) {
+      const data = stationData[stationKey];
+      if (!data) return;
+
+      // Update card visual selections
+      document.querySelectorAll('.hotspot-card').forEach(card => {
+        card.classList.remove('bg-surface-container-high', 'shadow-md');
+        card.classList.add('bg-surface-container');
+      });
+      const activeCard = document.getElementById(`card-${stationKey}`);
+      if (activeCard) {
+        activeCard.classList.remove('bg-surface-container');
+        activeCard.classList.add('bg-surface-container-high', 'shadow-md');
+      }
+
+      // Update Panel Text & Metadata
+      document.getElementById('panel-title').textContent = data.title;
+      document.getElementById('panel-subtitle').textContent = data.subtitle;
+      
+      const badge = document.getElementById('panel-station-badge');
+      badge.textContent = data.badge;
+      badge.className = `px-space-xs py-0.5 rounded text-[11px] font-medium ${data.badgeClass}`;
+
+      document.getElementById('meta-wind').innerHTML = data.wind;
+      document.getElementById('meta-inversion').innerHTML = data.inversion;
+      document.getElementById('meta-delta').innerHTML = data.delta;
+
+      // Rebuild Factors HTML
+      const container = document.getElementById('factors-container');
+      container.innerHTML = data.factors.map(f => `
+        <div class="space-y-1 factor-item transition-all duration-300">
+          <div class="flex items-center justify-between text-on-surface">
+            <div class="flex items-center gap-space-xs">
+              <span class="material-symbols-outlined text-[16px] text-secondary">${f.icon}</span>
+              <span class="font-title-sm text-body-md font-medium factor-name">${f.name}</span>
+            </div>
+            <span class="font-code-metric text-code-metric text-on-surface font-semibold factor-pct">${f.pct}%</span>
+          </div>
+          <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+            <div class="h-full ${f.color} rounded-full transition-all duration-500 factor-bar" style="width: ${f.pct}%;"></div>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant factor-desc">
+            ${f.desc}
+          </p>
+        </div>
+      `).join('');
+    }
+
+    // Filter Button Micro-Interaction
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('bg-primary', 'text-on-primary', 'shadow-sm', 'font-medium');
+          b.classList.add('text-on-surface-variant');
+        });
+        btn.classList.add('bg-primary', 'text-on-primary', 'shadow-sm', 'font-medium');
+        btn.classList.remove('text-on-surface-variant');
+
+        const filter = btn.getAttribute('data-filter');
+        document.querySelectorAll('.hotspot-card').forEach(card => {
+          const priority = card.getAttribute('data-priority');
+          const category = card.getAttribute('data-category');
+
+          if (filter === 'all') {
+            card.classList.remove('hidden');
+          } else if (filter === 'high') {
+            card.classList.toggle('hidden', priority !== 'high');
+          } else if (filter === 'industrial') {
+            card.classList.toggle('hidden', category !== 'industrial');
+          } else if (filter === 'transit') {
+            card.classList.toggle('hidden', category !== 'transit');
+          }
+        });
+      });
+    });
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest py-space-sm"><div class="w-full px-gutter-desktop flex flex-col sm:flex-row items-center justify-between gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span>Pune Metropolitan Environmental Observation System • Sensor Grid Telemetry</span><div class="flex items-center gap-space-md"><span>Real-time Spatial Interpolation</span><span>Atmospheric Baseline: Stable</span></div></div></footer>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var mapContainer = document.getElementById('map');
+        if (mapContainer && !window.leafletMap) {
+            
+            
+            window.leafletMap = L.map('map', {zoomControl: false}).setView([18.5204, 73.8567], 12);
+            const isLightMode = document.documentElement.classList.contains('light-theme');
+            const tileStyle = isLightMode ? 'positron' : 'dark-matter';
+            window.currentTileLayer = L.tileLayer(`https://maps.geoapify.com/v1/tile/${tileStyle}/{z}/{x}/{y}.png?apiKey=9ffb1a454708470d85abd020c40c9cb5`, {
+                maxZoom: 19
+            }).addTo(window.leafletMap);
+            
+            // Fix Tailwind CDN race condition where map container height is 0 at init
+            const ro = new ResizeObserver(() => {
+                if(window.leafletMap) window.leafletMap.invalidateSize();
+            });
+            ro.observe(mapContainer);
+            
+            // Also force a redraw after a short delay just in case
+            setTimeout(() => { if(window.leafletMap) window.leafletMap.invalidateSize(); }, 500);
+            setTimeout(() => { if(window.leafletMap) window.leafletMap.invalidateSize(); }, 2000);
+
+            
+            // Adjust overlay z-indexes
+            const overlays = mapContainer.querySelectorAll('.absolute');
+            overlays.forEach(el => { el.style.zIndex = '1000'; });
+        }
+    });
+    </script>
+    
+<style>
+/* Robust Light Theme Overrides - Smoky Grey Comprehensive */
+html.light-theme {
+    background-color: #f0f2f0 !important;
+    color: #1a1c1b !important;
+}
+
+/* Text Colors */
+html.light-theme .text-on-surface-variant { color: #404241 !important; }
+html.light-theme .text-on-surface { color: #1a1c1b !important; }
+html.light-theme .text-outline { color: #707271 !important; }
+html.light-theme .text-outline-variant { color: #c0c2c1 !important; }
+html.light-theme .text-secondary { color: #404943 !important; }
+html.light-theme .text-tertiary { color: #3b4b4d !important; }
+
+/* Border Colors */
+html.light-theme .border-outline { border-color: #c0c2c1 !important; }
+html.light-theme .border-outline-variant { border-color: #c0c2c1 !important; }
+html.light-theme .border-surface-variant { border-color: #dce0de !important; }
+
+/* Solid Backgrounds */
+html.light-theme .bg-surface-container-highest { background-color: #c8cac8 !important; }
+html.light-theme .bg-surface-container-high { background-color: #d2d4d2 !important; }
+html.light-theme .bg-surface-container { background-color: #dcdedc !important; }
+html.light-theme .bg-surface-container-low { background-color: #e6e8e6 !important; }
+html.light-theme .bg-surface-container-lowest { background-color: #f0f2f0 !important; }
+html.light-theme .bg-surface { background-color: #f0f2f0 !important; }
+html.light-theme main.bg-surface { background-color: #f0f2f0 !important; }
+html.light-theme .bg-tertiary-fixed-dim { background-color: #cce8e9 !important; color: #051f21 !important; }
+html.light-theme .bg-outline { background-color: #707271 !important; }
+
+/* Transparent Backgrounds */
+html.light-theme .bg-surface-container-high\/95 { background-color: rgba(210, 212, 210, 0.95) !important; }
+html.light-theme .bg-surface-container\/90 { background-color: rgba(220, 222, 220, 0.90) !important; }
+html.light-theme .bg-surface-container\/95 { background-color: rgba(220, 222, 220, 0.95) !important; }
+html.light-theme .bg-surface-container-low\/95 { background-color: rgba(230, 232, 230, 0.95) !important; }
+html.light-theme .bg-surface\/10 { background-color: rgba(240, 242, 240, 0.7) !important; }
+html.light-theme .bg-surface\/50 { background-color: rgba(240, 242, 240, 0.5) !important; }
+html.light-theme .bg-surface\/80 { background-color: rgba(240, 242, 240, 0.8) !important; }
+
+/* UI Elements */
+html.light-theme .bg-primary { background-color: #476553 !important; color: #ffffff !important; }
+html.light-theme .text-primary { color: #476553 !important; }
+html.light-theme .ring-on-surface\/20 { --tw-ring-color: rgba(26, 28, 27, 0.2) !important; }
+</style>
+<script>
+if (localStorage.getItem('theme') === 'light') { document.documentElement.classList.add('light-theme'); }
+document.addEventListener("DOMContentLoaded", function() {
+    const btn = document.getElementById('theme-toggle');
+    const icon = btn ? btn.querySelector('span') : null;
+    
+    if (localStorage.getItem('theme') === 'light' && icon) {
+        icon.innerText = 'dark_mode';
+    }
+    
+    if (btn) {
+        btn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('light-theme');
+            const isLight = document.documentElement.classList.contains('light-theme');
+            
+            if (isLight) {
+                localStorage.setItem('theme', 'light');
+                icon.innerText = 'dark_mode';
+                if(window.currentTileLayer) {
+                    window.currentTileLayer.setUrl('https://maps.geoapify.com/v1/tile/positron/{z}/{x}/{y}.png?apiKey=9ffb1a454708470d85abd020c40c9cb5');
+                }
+            } else {
+                localStorage.setItem('theme', 'dark');
+                icon.innerText = 'light_mode';
+                if(window.currentTileLayer) {
+                    window.currentTileLayer.setUrl('https://maps.geoapify.com/v1/tile/dark-matter/{z}/{x}/{y}.png?apiKey=9ffb1a454708470d85abd020c40c9cb5');
+                }
+            }
+        });
+    }
+});
+</script>
+
+  <script src="/intro.js?v=5"></script>
+</body></html>
