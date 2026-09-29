@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}
+/* Leaflet structural overrides */
+.leaflet-container {
+    background: transparent !important;
+}
+.leaflet-layer {
+    filter: brightness(0.6) contrast(1.2);
+}
+html.light-theme .leaflet-layer {
+    filter: none;
+}
+</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#032113", "inverse-surface": "#e2e3e0", "on-surface-variant": "#c2c8c1", "surface-tint": "#adceb8", "primary-container": "#8faf9a", "tertiary-fixed": "#ffddb4", "on-error": "#690005", "outline-variant": "#424843", "background": "#121413", "on-tertiary-fixed": "#291800", "on-error-container": "#ffdad6", "tertiary": "#ecbf83", "on-background": "#e2e3e0", "on-tertiary": "#452b00", "outline": "#8c928c", "inverse-primary": "#476553", "on-secondary-fixed-variant": "#364a4e", "on-primary": "#193627", "primary-fixed-dim": "#adceb8", "on-tertiary-container": "#543707", "inverse-on-surface": "#2f3130", "on-secondary": "#203437", "tertiary-fixed-dim": "#ecbf83", "surface-bright": "#383a38", "surface-container-highest": "#333534", "error": "#ffb4ab", "surface-container-low": "#1a1c1b", "surface": "#121413", "error-container": "#93000a", "on-tertiary-fixed-variant": "#604111", "on-surface": "#e2e3e0", "surface-variant": "#333534", "on-secondary-fixed": "#091e22", "on-primary-fixed-variant": "#304d3c", "secondary": "#b5cacf", "on-secondary-container": "#a3b9bd", "tertiary-container": "#cba068", "secondary-container": "#364a4e", "secondary-fixed": "#d0e6eb", "primary": "#adceb8", "surface-dim": "#121413", "secondary-fixed-dim": "#b5cacf", "primary-fixed": "#c9ebd4", "surface-container": "#1e201f", "on-primary-container": "#264332", "surface-container-lowest": "#0d0f0e", "surface-container-high": "#282a29" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "margin-desktop": "2rem", "margin": "1rem", "gutter": "1rem", "space-xs": "0.25rem", "space-xl": "2.5rem", "space-sm": "0.5rem", "space-md": "1rem", "space-lg": "1.5rem", "gutter-desktop": "1.5rem" }, "fontFamily": { "body-sm": ["Inter"], "headline-xl": ["Manrope"], "code-metric": ["Inter"], "headline-lg": ["Manrope"], "title-sm": ["Inter"], "body-md": ["Inter"], "display-lg-mobile": ["Manrope"], "headline-md": ["Manrope"], "body-lg": ["Inter"], "label-md": ["Inter"], "label-sm": ["Inter"], "display-lg": ["Manrope"] }, "fontSize": { "body-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}], "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "600"}], "code-metric": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}], "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}], "title-sm": ["15px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "600"}], "body-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400"}], "display-lg-mobile": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "600"}], "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "500"}], "body-lg": ["15px", {"lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400"}], "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}], "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500"}], "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}] } } } };</script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link href="/intro.css?v=4" rel="stylesheet"/>
+</head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary min-h-screen flex flex-col"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-gutter-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md shrink-0"><img alt="UrbanAir Twin Minimal Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XO6_tDByOL1sPBx-a585Vr97qtjvT1TPzq6q4qvx4rZpjcQmEw5FVe9AJpQ2IS1WsKCoKkZO0BwLFIO3wG454ByWYyS13dRob2kaqYCZ7Bly8zhWghZmgtwTsRJX7hlaFenacK2koZxoS_RtGeDEGAxZNnNlDWuP-G8QxsxAI1dFp9-HWC735X2TMAMK8tnKFYEGaDql25OqG0jbpOnrA5YCB8uneNHkBtHJCLYT4Glxj_tXoBYzkVsbgg"/><div class="flex flex-col"><span class="font-title-sm text-title-sm text-on-surface tracking-tight leading-none">UrbanAir Twin</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-none mt-1">Metropolitan Intelligence</span></div></div><nav class="hidden md:flex items-center gap-space-xs p-1 bg-surface-container rounded-lg" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a aria-current="page" class="px-space-md py-1.5 transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm" data-path="overview" href="/overview/">Overview</a><a class="px-space-md py-1.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="hotspots" href="/hotspots/">Hotspots</a><a class="px-space-md py-1.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="forecast" href="/forecast/">Forecast</a><a class="px-space-md py-1.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="scenario-lab" href="/scenario-lab/">Scenario Lab</a></nav><div class="flex items-center gap-space-md shrink-0"><div class="hidden sm:flex items-center gap-space-sm px-space-md py-1.5 rounded-lg bg-surface-container"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-40"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span><span class="font-body-sm text-body-sm text-on-surface font-medium">Pune, India</span><span class="font-label-sm text-label-sm text-outline">|</span><span class="font-code-metric text-code-metric text-on-surface-variant">14:30 IST</span><span class="font-label-sm text-label-sm text-outline hidden lg:inline">|</span><span class="font-label-sm text-label-sm text-on-surface-variant hidden lg:inline">Municipal Live Feed</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><button id="theme-toggle" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 border border-outline-variant hover:bg-surface-container-high transition-colors ml-2">
+  <span class="material-symbols-outlined text-on-surface text-[18px]">light_mode</span>
+</button></div></div></header><main class="w-full pt-16 bg-surface flex-1 flex flex-col"><div class="flex flex-col w-full min-h-[calc(100vh-4rem)]">
+<!-- Top Compact Status Strip -->
+<section class="w-full bg-surface-container-low px-gutter-desktop py-space-xs shadow-sm">
+<div class="w-full flex items-center justify-between gap-space-md overflow-x-auto text-body-sm text-on-surface-variant font-body-sm py-1">
+<div class="flex items-center gap-space-lg shrink-0">
+<!-- Location -->
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">location_city</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Sector</span>
+<span class="font-title-sm text-title-sm text-on-surface">Pune Central Urban Area</span>
+</div>
+<span class="h-3 w-[1px] bg-surface-container-highest"></span>
+<!-- PM2.5 Observed -->
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">PM2.5</span>
+<span class="font-headline-md text-headline-md font-code-metric text-on-surface">118</span>
+<span class="font-label-sm text-label-sm text-outline-variant font-code-metric">µg/m³</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-[10px] tracking-wider uppercase">Observed</span>
+</div>
+<span class="h-3 w-[1px] bg-surface-container-highest"></span>
+<!-- Air Quality Category -->
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Air Quality</span>
+<span class="flex items-center gap-1 font-body-md text-body-md text-error font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
+            High
+          </span>
+</div>
+<span class="h-3 w-[1px] bg-surface-container-highest"></span>
+<!-- 6-Hour Trend -->
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">6-Hour Trend</span>
+<span class="font-body-md text-body-md text-tertiary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[15px]">trending_up</span>
+            Rising (+4 µg/m³)
+          </span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-secondary font-label-sm text-[10px] tracking-wider uppercase">Forecast</span>
+</div>
+</div>
+<!-- Right Metadata / Stations -->
+<div class="flex items-center gap-space-md shrink-0">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-primary/80"></span>
+<span class="font-label-md text-label-md text-on-surface">12 Active Nodes</span>
+</div>
+<span class="h-3 w-[1px] bg-surface-container-highest"></span>
+<span class="font-label-sm text-label-sm text-outline">Interpolation: Spatial Kriging (0.8s sync)</span>
+</div>
+</div>
+</section>
+<!-- Main Viewport Layout -->
+<div class="flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-0 relative overflow-hidden">
+<!-- Left Hero Geospatial Twin Canvas (72% -> ~col-span-8.5 or col-span-9 on 12-grid, precise flex) -->
+<div class="lg:col-span-8 xl:col-span-9 relative bg-surface-container-lowest min-h-[640px] flex flex-col justify-between overflow-hidden">
+<!-- Ambient Cartographic Underlay & Simulated GIS Vectors -->
+<!-- CORRECT LEAFLET MAP CONTAINER -->
+<div id="map" class="absolute inset-0 z-0"></div>
+<div class="absolute inset-0 pointer-events-none select-none">
+<!-- SVG Vector Map for Pune Rivers, Arterials, and Soft Thermal Diffusion Plumes -->
+<svg class="w-full h-full object-cover opacity-90" fill="none" viewbox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<!-- Hotspot Soft Gaussian Diffusion Plumes (No neon, soft atmospheric tone) -->
+<radialgradient cx="50%" cy="50%" id="plumeShivaji" r="50%">
+<stop offset="0%" stop-color="#b86f67" stop-opacity="0.32"></stop>
+<stop offset="45%" stop-color="#cba068" stop-opacity="0.18"></stop>
+<stop offset="100%" stop-color="#121413" stop-opacity="0"></stop>
+</radialgradient>
+<radialgradient cx="50%" cy="50%" id="plumeHadapsar" r="50%">
+<stop offset="0%" stop-color="#cba068" stop-opacity="0.30"></stop>
+<stop offset="55%" stop-color="#cba068" stop-opacity="0.12"></stop>
+<stop offset="100%" stop-color="#121413" stop-opacity="0"></stop>
+</radialgradient>
+<radialgradient cx="50%" cy="50%" id="plumeSwargate" r="50%">
+<stop offset="0%" stop-color="#9aa878" stop-opacity="0.25"></stop>
+<stop offset="60%" stop-color="#8faf9a" stop-opacity="0.10"></stop>
+<stop offset="100%" stop-color="#121413" stop-opacity="0"></stop>
+</radialgradient>
+<radialgradient cx="50%" cy="50%" id="plumeKothrud" r="50%">
+<stop offset="0%" stop-color="#8faf9a" stop-opacity="0.22"></stop>
+<stop offset="70%" stop-color="#476553" stop-opacity="0.06"></stop>
+<stop offset="100%" stop-color="#121413" stop-opacity="0"></stop>
+</radialgradient>
+<radialgradient cx="50%" cy="50%" id="plumeBhosari" r="50%">
+<stop offset="0%" stop-color="#b86f67" stop-opacity="0.28"></stop>
+<stop offset="55%" stop-color="#cba068" stop-opacity="0.12"></stop>
+<stop offset="100%" stop-color="#121413" stop-opacity="0"></stop>
+</radialgradient>
+<pattern height="40" id="urbanGrid" patternunits="userSpaceOnUse" width="40">
+<path d="M 40 0 L 0 0 0 40" fill="none" stroke="#282a29" stroke-opacity="0.4" stroke-width="0.5"></path>
+</pattern>
+</defs>
+<!-- Subtle Base Grid -->
+<rect fill="url(#urbanGrid)" height="700" width="1000"></rect>
+<!-- Topographic contours / terrain nuance removed -->
+<!-- Mula & Mutha Rivers removed -->
+<!-- Road Arteries removed -->
+<!-- Atmospheric Thermal & Particulate Plumes -->
+<circle cx="480" cy="315" fill="url(#plumeShivaji)" r="140"></circle>
+<circle cx="760" cy="405" fill="url(#plumeHadapsar)" r="125"></circle>
+<circle cx="480" cy="450" fill="url(#plumeSwargate)" r="105"></circle>
+<circle cx="280" cy="460" fill="url(#plumeKothrud)" r="115"></circle>
+<circle cx="460" cy="140" fill="url(#plumeBhosari)" r="120"></circle>
+<!-- Airflow Streamline Vectors removed -->
+<!-- Waterbody Micro Labels -->
+<text fill="#71868a" font-family="Inter" font-size="10" letter-spacing="1.5" opacity="0.7" x="540" y="275">MULA-MUTHA CONFLUENCE</text>
+<text fill="#545855" font-family="Inter" font-size="9" letter-spacing="1" x="210" y="425">KARVE RD</text>
+<text fill="#545855" font-family="Inter" font-size="9" letter-spacing="1" x="495" y="225">FC / JM CORRIDOR</text>
+<text fill="#545855" font-family="Inter" font-size="9" letter-spacing="1" x="680" y="375">PUNE-SOLAPUR HWY</text>
+</svg>
+</div>
+<!-- Map Floating Header Metadata -->
+<div class="relative z-10 p-space-md flex items-center justify-between pointer-events-none">
+<div class="pointer-events-auto bg-surface-container/90 backdrop-blur-md px-space-md py-space-sm rounded shadow-sm flex items-center gap-space-md">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface">Spatial Interpolation Canvas</span>
+</div>
+<span class="text-outline text-label-sm">|</span>
+<span class="font-code-metric text-body-sm text-on-surface-variant">Grid: 100m Resolution</span>
+<span class="text-outline text-label-sm hidden sm:inline">|</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant hidden sm:inline">Dispersion: Gaussian Plume Dynamics</span>
+</div>
+<!-- Layer Controls Pill -->
+<div class="pointer-events-auto bg-surface-container/90 backdrop-blur-md p-1 rounded shadow-sm flex items-center gap-1">
+<button class="px-2.5 py-1 text-label-sm font-label-sm bg-surface-container-high text-on-surface rounded shadow-sm transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">layers</span>
+            Heatmap
+          </button>
+<button class="px-2.5 py-1 text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface rounded transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">air</span>
+            Airflow Vectors
+          </button>
+<button class="px-2.5 py-1 text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface rounded transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">domain</span>
+            Topography
+          </button>
+</div>
+</div>
+<!-- Interactive Hotspot Markers Positioned Over Map Canvas -->
+<div class="relative z-10 w-full h-[520px]">
+<!-- 1. SHIVAJINAGAR (Selected Hero Hotspot) -->
+<div class="absolute left-[48%] top-[45%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group" onclick="selectHotspot('shivajinagar')">
+<!-- Active Halo Rings -->
+<div class="absolute -inset-4 rounded-full bg-error/10 animate-pulse pointer-events-none"></div>
+<div class="absolute -inset-2 rounded-full bg-error/20 pointer-events-none"></div>
+<div class="relative flex items-center gap-2 bg-surface-container-high/95 backdrop-blur-md px-2.5 py-1.5 rounded shadow-lg group-hover:bg-surface-bright transition-all">
+<div class="relative flex items-center justify-center">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span class="absolute w-4 h-4 rounded-full bg-error/30 animate-ping"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-title-sm text-body-sm font-semibold text-on-surface leading-tight">Shivajinagar</span>
+<span class="px-1 py-0.2 rounded bg-error/20 text-error font-label-sm text-[9px] uppercase tracking-wide">Active</span>
+</div>
+<div class="flex items-center gap-1 font-code-metric text-label-sm text-error">
+<span>118 µg/m³</span>
+<span class="text-outline text-[10px]">• High</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 2. HADAPSAR -->
+<div class="absolute left-[76%] top-[58%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group" onclick="selectHotspot('hadapsar')">
+<div class="flex items-center gap-2 bg-surface-container/90 backdrop-blur-md px-2.5 py-1.5 rounded shadow-md group-hover:bg-surface-container-high transition-all">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-medium text-on-surface leading-tight">Hadapsar</span>
+<span class="font-code-metric text-label-sm text-tertiary">104 µg/m³</span>
+</div>
+</div>
+</div>
+<!-- 3. SWARGATE -->
+<div class="absolute left-[48%] top-[64%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group" onclick="selectHotspot('swargate')">
+<div class="flex items-center gap-2 bg-surface-container/90 backdrop-blur-md px-2 py-1.5 rounded shadow-md group-hover:bg-surface-container-high transition-all">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-medium text-on-surface leading-tight">Swargate</span>
+<span class="font-code-metric text-label-sm text-tertiary">98 µg/m³</span>
+</div>
+</div>
+</div>
+<!-- 4. KOTHRUD -->
+<div class="absolute left-[28%] top-[66%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group" onclick="selectHotspot('kothrud')">
+<div class="flex items-center gap-2 bg-surface-container/90 backdrop-blur-md px-2 py-1.5 rounded shadow-md group-hover:bg-surface-container-high transition-all">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-medium text-on-surface leading-tight">Kothrud</span>
+<span class="font-code-metric text-label-sm text-primary">64 µg/m³</span>
+</div>
+</div>
+</div>
+<!-- 5. BHOSARI -->
+<div class="absolute left-[46%] top-[20%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group" onclick="selectHotspot('bhosari')">
+<div class="flex items-center gap-2 bg-surface-container/90 backdrop-blur-md px-2 py-1.5 rounded shadow-md group-hover:bg-surface-container-high transition-all">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-medium text-on-surface leading-tight">Bhosari</span>
+<span class="font-code-metric text-label-sm text-error">112 µg/m³</span>
+</div>
+</div>
+</div>
+<!-- 6. KATRAJ -->
+<div class="absolute left-[45%] top-[82%] -translate-x-1/2 -translate-y-1/2 cursor-pointer group" onclick="selectHotspot('katraj')">
+<div class="flex items-center gap-2 bg-surface-container/90 backdrop-blur-md px-2 py-1 rounded shadow-md group-hover:bg-surface-container-high transition-all">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-medium text-on-surface leading-tight">Katraj</span>
+<span class="font-code-metric text-label-sm text-tertiary">91 µg/m³</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Map Footer Controls & Scientific Legend -->
+<div class="relative z-10 p-space-md flex flex-col sm:flex-row items-end sm:items-center justify-between gap-space-md pointer-events-none">
+<!-- Discrete Map Navigation Widget -->
+<div class="pointer-events-auto flex items-center gap-1 bg-surface-container/95 backdrop-blur-md p-1 rounded shadow-md">
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors" title="Zoom In">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+<button class="w-8 h-8 rounded flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors" title="Zoom Out">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<span class="w-[1px] h-4 bg-surface-container-highest"></span>
+<button class="px-2.5 h-8 rounded flex items-center gap-1 text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Reset Extent">
+<span class="material-symbols-outlined text-[16px]">crop_free</span>
+<span>Reset</span>
+</button>
+</div>
+<!-- Discrete Map Legend -->
+<div class="pointer-events-auto bg-surface-container/95 backdrop-blur-md px-space-md py-space-xs rounded shadow-md flex items-center gap-space-md">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Air Quality</span>
+<div class="flex items-center gap-3 font-label-sm text-label-sm text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span>Low</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-[#9aa878]"></span>
+<span>Moderate</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span>High</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span>Very High</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side Information Panel (28% width) -->
+<div class="lg:col-span-4 xl:col-span-3 bg-surface-container p-space-lg flex flex-col justify-between shadow-xl z-20">
+<div class="flex flex-col space-y-space-lg">
+<!-- Station Header -->
+<div class="flex flex-col space-y-space-xs pb-space-md bg-surface-container-low p-space-md rounded">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-outline">Selected Focal Station</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm tracking-wide font-medium">OBSERVED</span>
+</div>
+<div class="flex items-baseline justify-between mt-1">
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-semibold tracking-tight">Shivajinagar</h2>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Central Basin</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">Dense transit junction with localized atmospheric trapping along university corridor.</p>
+</div>
+<!-- Main Metric Readout Card -->
+<div class="bg-surface-container-high p-space-md rounded shadow-sm flex flex-col space-y-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Particulate Load (PM2.5)</span>
+<span class="px-2 py-0.5 rounded bg-error/15 text-error font-label-sm text-label-sm font-medium">Status: High</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-display-lg text-display-lg font-code-metric text-on-surface tracking-tight">118</span>
+<span class="font-body-md text-body-md text-outline font-code-metric">µg/m³</span>
+</div>
+<div class="flex items-center gap-space-xs text-label-sm font-label-sm text-tertiary">
+<span class="material-symbols-outlined text-[15px]">north_east</span>
+<span>+12 µg/m³ above seasonal morning baseline</span>
+</div>
+</div>
+<!-- Ambient Meteorological Conditions Grid -->
+<div class="flex flex-col space-y-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline px-1">Current Atmospheric State</span>
+<div class="grid grid-cols-2 gap-2">
+<div class="bg-surface-container-low p-space-sm rounded">
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Temperature</span>
+<span class="font-title-sm text-title-sm text-on-surface font-code-metric mt-0.5 block">27°C</span>
+<span class="font-label-sm text-[10px] text-outline">Mild inversion layer</span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded">
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Humidity</span>
+<span class="font-title-sm text-title-sm text-on-surface font-code-metric mt-0.5 block">68%</span>
+<span class="font-label-sm text-[10px] text-outline">Aerosol suspension</span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded">
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Wind Velocity</span>
+<span class="font-title-sm text-title-sm text-on-surface font-code-metric mt-0.5 block">2.1 m/s</span>
+<span class="font-label-sm text-[10px] text-outline">Calm WSW drift</span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded">
+<span class="font-label-sm text-label-sm text-on-surface-variant block">Short-term Outlook</span>
+<span class="font-title-sm text-title-sm text-tertiary flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+                Rising
+              </span>
+<span class="font-label-sm text-[10px] text-outline">Next peak: 18:30</span>
+</div>
+</div>
+</div>
+<!-- Source Influences / Attribution Bars -->
+<div class="flex flex-col space-y-space-sm pt-space-xs">
+<div class="flex flex-col">
+<h3 class="font-title-sm text-title-sm text-on-surface tracking-tight">What May Be Influencing Air Quality</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Likely contributing factors</span>
+</div>
+<div class="space-y-3 pt-1">
+<!-- 1. Traffic -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                  Traffic Activity
+                </span>
+<span class="font-code-metric text-on-surface font-medium">41%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-error rounded-full" style="width: 41%"></div>
+</div>
+</div>
+<!-- 2. Road Dust -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  Road Dust & Resuspension
+                </span>
+<span class="font-code-metric text-on-surface font-medium">25%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 25%"></div>
+</div>
+</div>
+<!-- 3. Boundary Layer Weather -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-[#9aa878]"></span>
+                  Boundary Layer Weather
+                </span>
+<span class="font-code-metric text-on-surface font-medium">20%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-[#9aa878] rounded-full" style="width: 20%"></div>
+</div>
+</div>
+<!-- 4. Regional Inflow -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<span class="text-on-surface flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                  Regional Air Transport
+                </span>
+<span class="font-code-metric text-on-surface font-medium">14%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-outline rounded-full" style="width: 14%"></div>
+</div>
+</div>
+</div>
+<p class="font-body-sm text-[11px] text-outline leading-normal pt-1">
+            Model-estimated local influences based on current urban activity and weather dynamics.
+          </p>
+</div>
+</div>
+<!-- Action Panel Grounding -->
+<div class="flex flex-col space-y-2.5 pt-space-lg">
+<a class="w-full h-10 px-space-md bg-primary hover:bg-primary-fixed text-on-primary-fixed font-title-sm text-body-md font-semibold rounded flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.99]" href="#">
+<span>Explore Scenario</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+<button class="w-full h-9 px-space-md bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md rounded flex items-center justify-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[16px]">history</span>
+<span>View 24h Trend</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function selectHotspot(stationKey) {
+    const stations = {
+      shivajinagar: {
+        name: "Shivajinagar",
+        sector: "Central Basin",
+        desc: "Dense transit junction with localized atmospheric trapping along university corridor.",
+        pm: "118",
+        status: "High",
+        temp: "27°C",
+        hum: "68%",
+        wind: "2.1 m/s",
+        traffic: "41%",
+        dust: "25%",
+        weather: "20%",
+        regional: "14%"
+      },
+      hadapsar: {
+        name: "Hadapsar",
+        sector: "Eastern Industrial Belt",
+        desc: "Mixed industrial-logistics corridor with elevated heavy vehicle movement.",
+        pm: "104",
+        status: "High",
+        temp: "28°C",
+        hum: "62%",
+        wind: "2.6 m/s",
+        traffic: "36%",
+        dust: "32%",
+        weather: "16%",
+        regional: "16%"
+      },
+      swargate: {
+        name: "Swargate",
+        sector: "South Transit Hub",
+        desc: "Intercity bus terminal and major vehicular crossing zone.",
+        pm: "98",
+        status: "Moderate",
+        temp: "27°C",
+        hum: "66%",
+        wind: "1.9 m/s",
+        traffic: "44%",
+        dust: "24%",
+        weather: "18%",
+        regional: "14%"
+      },
+      kothrud: {
+        name: "Kothrud",
+        sector: "Western Foothill Sector",
+        desc: "Elevated residential terrain with favorable katabatic drainage winds.",
+        pm: "64",
+        status: "Low",
+        temp: "26°C",
+        hum: "71%",
+        wind: "3.2 m/s",
+        traffic: "22%",
+        dust: "18%",
+        weather: "38%",
+        regional: "22%"
+      },
+      bhosari: {
+        name: "Bhosari",
+        sector: "Northern Manufacturing Hub",
+        desc: "Concentrated manufacturing and warehousing activities along highway ring.",
+        pm: "112",
+        status: "High",
+        temp: "29°C",
+        hum: "59%",
+        wind: "2.4 m/s",
+        traffic: "32%",
+        dust: "38%",
+        weather: "15%",
+        regional: "15%"
+      },
+      katraj: {
+        name: "Katraj",
+        sector: "Southern Bypass Valley",
+        desc: "Tunnel approaches and highway freight passage along southern rim.",
+        pm: "91",
+        status: "Moderate",
+        temp: "26°C",
+        hum: "70%",
+        wind: "2.8 m/s",
+        traffic: "35%",
+        dust: "28%",
+        weather: "22%",
+        regional: "15%"
+      }
+    };
+
+    const s = stations[stationKey];
+    if (!s) return;
+
+    // Smooth UI highlight feedback can be wired here in an extended implementation
+  }
+</script></main><footer class="w-full bg-surface-container-lowest py-space-sm"><div class="w-full px-gutter-desktop flex flex-col sm:flex-row items-center justify-between gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span>Pune Metropolitan Environmental Observation System • Sensor Grid Telemetry</span><div class="flex items-center gap-space-md"><span>Real-time Spatial Interpolation</span><span>Atmospheric Baseline: Stable</span></div></div></footer>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var mapContainer = document.getElementById('map');
+        if (mapContainer && !window.leafletMap) {
+            
+            
+            window.leafletMap = L.map('map', {zoomControl: false}).setView([18.5204, 73.8567], 12);
+            const isLightMode = document.documentElement.classList.contains('light-theme');
+            const tileStyle = isLightMode ? 'positron' : 'dark-matter';
+            window.currentTileLayer = L.tileLayer(`https://maps.geoapify.com/v1/tile/${tileStyle}/{z}/{x}/{y}.png?apiKey=9ffb1a454708470d85abd020c40c9cb5`, {
+                maxZoom: 19
+            }).addTo(window.leafletMap);
+            
+            // Fix Tailwind CDN race condition where map container height is 0 at init
+            const ro = new ResizeObserver(() => {
+                if(window.leafletMap) window.leafletMap.invalidateSize();
+            });
+            ro.observe(mapContainer);
+            
+            // Also force a redraw after a short delay just in case
+            setTimeout(() => { if(window.leafletMap) window.leafletMap.invalidateSize(); }, 500);
+            setTimeout(() => { if(window.leafletMap) window.leafletMap.invalidateSize(); }, 2000);
+
+            
+            // Adjust overlay z-indexes
+            const overlays = mapContainer.querySelectorAll('.absolute');
+            overlays.forEach(el => { el.style.zIndex = '1000'; });
+        }
+    });
+    </script>
+<script>
+if (localStorage.getItem('theme') === 'light') { document.documentElement.classList.add('light-theme'); }
+document.addEventListener("DOMContentLoaded", function() {
+    const btn = document.getElementById('theme-toggle');
+    const icon = btn ? btn.querySelector('span') : null;
+    
+    if (localStorage.getItem('theme') === 'light' && icon) {
+        icon.innerText = 'dark_mode';
+    }
+    
+    if (btn) {
+        btn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('light-theme');
+            const isLight = document.documentElement.classList.contains('light-theme');
+            
+            if (isLight) {
+                localStorage.setItem('theme', 'light');
+                icon.innerText = 'dark_mode';
+                if(window.currentTileLayer) {
+                    window.currentTileLayer.setUrl('https://maps.geoapify.com/v1/tile/positron/{z}/{x}/{y}.png?apiKey=9ffb1a454708470d85abd020c40c9cb5');
+                }
+            } else {
+                localStorage.setItem('theme', 'dark');
+                icon.innerText = 'light_mode';
+                if(window.currentTileLayer) {
+                    window.currentTileLayer.setUrl('https://maps.geoapify.com/v1/tile/dark-matter/{z}/{x}/{y}.png?apiKey=9ffb1a454708470d85abd020c40c9cb5');
+                }
+            }
+        });
+    }
+});
+</script>
+
+  <script src="/intro.js?v=5"></script>
+</body></html>

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Manrope:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}
+/* Leaflet structural overrides */
+.leaflet-container {
+    background: transparent !important;
+}
+.leaflet-layer {
+    filter: brightness(0.6) contrast(1.2);
+}
+html.light-theme .leaflet-layer {
+    filter: none;
+}
+</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#032113", "inverse-surface": "#e2e3e0", "on-surface-variant": "#c2c8c1", "surface-tint": "#adceb8", "primary-container": "#8faf9a", "tertiary-fixed": "#ffddb4", "on-error": "#690005", "outline-variant": "#424843", "background": "#121413", "on-tertiary-fixed": "#291800", "on-error-container": "#ffdad6", "tertiary": "#ecbf83", "on-background": "#e2e3e0", "on-tertiary": "#452b00", "outline": "#8c928c", "inverse-primary": "#476553", "on-secondary-fixed-variant": "#364a4e", "on-primary": "#193627", "primary-fixed-dim": "#adceb8", "on-tertiary-container": "#543707", "inverse-on-surface": "#2f3130", "on-secondary": "#203437", "tertiary-fixed-dim": "#ecbf83", "surface-bright": "#383a38", "surface-container-highest": "#333534", "error": "#ffb4ab", "surface-container-low": "#1a1c1b", "surface": "#121413", "error-container": "#93000a", "on-tertiary-fixed-variant": "#604111", "on-surface": "#e2e3e0", "surface-variant": "#333534", "on-secondary-fixed": "#091e22", "on-primary-fixed-variant": "#304d3c", "secondary": "#b5cacf", "on-secondary-container": "#a3b9bd", "tertiary-container": "#cba068", "secondary-container": "#364a4e", "secondary-fixed": "#d0e6eb", "primary": "#adceb8", "surface-dim": "#121413", "secondary-fixed-dim": "#b5cacf", "primary-fixed": "#c9ebd4", "surface-container": "#1e201f", "on-primary-container": "#264332", "surface-container-lowest": "#0d0f0e", "surface-container-high": "#282a29" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "margin-desktop": "2rem", "margin": "1rem", "gutter": "1rem", "space-xs": "0.25rem", "space-xl": "2.5rem", "space-sm": "0.5rem", "space-md": "1rem", "space-lg": "1.5rem", "gutter-desktop": "1.5rem" }, "fontFamily": { "body-sm": ["Inter"], "headline-xl": ["Manrope"], "code-metric": ["Inter"], "headline-lg": ["Manrope"], "title-sm": ["Inter"], "body-md": ["Inter"], "display-lg-mobile": ["Manrope"], "headline-md": ["Manrope"], "body-lg": ["Inter"], "label-md": ["Inter"], "label-sm": ["Inter"], "display-lg": ["Manrope"] }, "fontSize": { "body-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}], "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "600"}], "code-metric": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}], "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}], "title-sm": ["15px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "600"}], "body-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400"}], "display-lg-mobile": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "600"}], "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "500"}], "body-lg": ["15px", {"lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400"}], "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}], "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500"}], "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}] } } } };</script>  <link href="/intro.css?v=4" rel="stylesheet"/>
+</head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary min-h-screen flex flex-col"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-gutter-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md shrink-0"><img alt="UrbanAir Twin Minimal Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XO6_tDByOL1sPBx-a585Vr97qtjvT1TPzq6q4qvx4rZpjcQmEw5FVe9AJpQ2IS1WsKCoKkZO0BwLFIO3wG454ByWYyS13dRob2kaqYCZ7Bly8zhWghZmgtwTsRJX7hlaFenacK2koZxoS_RtGeDEGAxZNnNlDWuP-G8QxsxAI1dFp9-HWC735X2TMAMK8tnKFYEGaDql25OqG0jbpOnrA5YCB8uneNHkBtHJCLYT4Glxj_tXoBYzkVsbgg"/><div class="flex flex-col"><span class="font-title-sm text-title-sm text-on-surface tracking-tight leading-none">UrbanAir Twin</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-none mt-1">Metropolitan Intelligence</span></div></div><nav class="hidden md:flex items-center gap-space-xs p-1 bg-surface-container rounded-lg" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="px-space-md py-1.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="overview" href="/overview/">Overview</a><a class="px-space-md py-1.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="hotspots" href="/hotspots/">Hotspots</a><a aria-current="page" class="px-space-md py-1.5 transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm" data-path="forecast" href="/forecast/">Forecast</a><a class="px-space-md py-1.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="scenario-lab" href="/scenario-lab/">Scenario Lab</a></nav><div class="flex items-center gap-space-md shrink-0"><div class="hidden sm:flex items-center gap-space-sm px-space-md py-1.5 rounded-lg bg-surface-container"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-40"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span><span class="font-body-sm text-body-sm text-on-surface font-medium">Pune, India</span><span class="font-label-sm text-label-sm text-outline">|</span><span class="font-code-metric text-code-metric text-on-surface-variant">14:30 IST</span><span class="font-label-sm text-label-sm text-outline hidden lg:inline">|</span><span class="font-label-sm text-label-sm text-on-surface-variant hidden lg:inline">Municipal Live Feed</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><button id="theme-toggle" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 border border-outline-variant hover:bg-surface-container-high transition-colors ml-2">
+  <span class="material-symbols-outlined text-on-surface text-[18px]">light_mode</span>
+</button></div></div></header><main class="w-full pt-16 bg-surface flex-1 flex flex-col"><div class="flex flex-col w-full">
+<!-- Sub-header & Station Telemetry Strip -->
+<div class="w-full px-gutter-desktop pt-space-lg pb-space-md bg-surface-container-low flex flex-col gap-space-md">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<!-- Title & Micro-Trajectory Badge -->
+<div class="flex flex-wrap items-center gap-space-md">
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Pollution Forecast</h1>
+<div class="inline-flex items-center gap-space-xs px-2.5 py-1 rounded bg-secondary-container/40 text-secondary text-label-sm font-label-sm tracking-wider uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+          FORECAST — 6-Hour Micro-Trajectory
+        </div>
+</div>
+<!-- Station Picker Dropdown & Operational Mode -->
+<div class="flex items-center gap-space-sm">
+<div class="relative inline-block text-left" id="station-picker-container">
+<button class="flex items-center gap-space-sm px-space-md py-1.5 rounded bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface font-title-sm text-title-sm cursor-pointer shadow-sm" id="station-dropdown-trigger" type="button">
+<span class="material-symbols-outlined text-primary text-[18px]">location_on</span>
+<span id="selected-station-label">Shivajinagar Station, Pune</span>
+<span class="material-symbols-outlined text-outline text-[16px]">expand_more</span>
+</button>
+<div class="hidden absolute right-0 mt-1 w-64 rounded-lg bg-surface-container-high shadow-xl p-1 z-30 flex-col" id="station-menu">
+<button class="station-opt w-full text-left px-space-md py-2 rounded font-body-md text-body-md text-on-surface hover:bg-surface-container-highest flex items-center justify-between" data-curr="118" data-name="Shivajinagar Station, Pune" data-peak="132" type="button">
+<span>Shivajinagar Station</span>
+<span class="font-code-metric text-code-metric text-tertiary">118 µg/m³</span>
+</button>
+<button class="station-opt w-full text-left px-space-md py-2 rounded font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest flex items-center justify-between" data-curr="94" data-name="Kothrud Ambient Node, Pune" data-peak="108" type="button">
+<span>Kothrud Ambient Node</span>
+<span class="font-code-metric text-code-metric text-primary">94 µg/m³</span>
+</button>
+<button class="station-opt w-full text-left px-space-md py-2 rounded font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest flex items-center justify-between" data-curr="142" data-name="Hadapsar Industrial Rim, Pune" data-peak="165" type="button">
+<span>Hadapsar Industrial Rim</span>
+<span class="font-code-metric text-code-metric text-error">142 µg/m³</span>
+</button>
+<button class="station-opt w-full text-left px-space-md py-2 rounded font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest flex items-center justify-between" data-curr="126" data-name="Pimpri Chinchwad Junction" data-peak="140" type="button">
+<span>Pimpri Chinchwad Junc.</span>
+<span class="font-code-metric text-code-metric text-tertiary">126 µg/m³</span>
+</button>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-space-xs px-space-md py-1.5 rounded bg-surface-container text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-primary">model_training</span>
+<span>Atmospheric Dispersion Run</span>
+</div>
+</div>
+</div>
+<!-- Metrics Telemetry Ribbon -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm pt-space-xs">
+<div class="flex items-center justify-between p-space-md rounded bg-surface-container">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Current Observed</span>
+<div class="flex items-baseline gap-space-xs mt-0.5">
+<span class="font-headline-xl text-headline-xl text-on-surface font-semibold" id="val-observed">118</span>
+<span class="font-code-metric text-code-metric text-outline">µg/m³</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm uppercase bg-surface-container-highest text-on-surface-variant">Observed • Ground Sensor</span>
+</div>
+<div class="flex items-center justify-between p-space-md rounded bg-surface-container">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Predicted Peak Level</span>
+<div class="flex items-baseline gap-space-xs mt-0.5">
+<span class="font-headline-xl text-headline-xl text-tertiary font-semibold" id="val-peak">132</span>
+<span class="font-code-metric text-code-metric text-tertiary">µg/m³</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-tertiary block">21:00 Today</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Evening Inversion</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-space-md rounded bg-surface-container">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Safe Baseline (NAAQS Standard)</span>
+<div class="flex items-baseline gap-space-xs mt-0.5">
+<span class="font-headline-xl text-headline-xl text-primary font-semibold">60</span>
+<span class="font-code-metric text-code-metric text-outline">µg/m³</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded text-label-sm font-label-sm uppercase bg-primary/10 text-primary">Permissible Limit</span>
+</div>
+</div>
+</div>
+<!-- Primary Canvas Grid -->
+<div class="w-full px-gutter-desktop py-space-lg flex flex-col gap-space-xl">
+<!-- Dominant PM2.5 Trajectory Chart Container -->
+<div class="w-full bg-surface-container rounded-xl p-space-lg sm:p-space-xl shadow-md relative overflow-hidden">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md mb-space-lg">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">PM2.5 Ambient Concentration Profile</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Past observation and forward micro-trajectory with 95% projection confidence interval</p>
+</div>
+<!-- Legend Strip -->
+<div class="flex flex-wrap items-center gap-space-md font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex items-center gap-space-xs">
+<span class="w-4 h-0.5 bg-on-surface-variant rounded-full"></span>
+<span>Historical Observed</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="w-4 h-0.5 bg-primary rounded-full"></span>
+<span>Micro-Trajectory</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-2 bg-primary/20 rounded-sm"></span>
+<span>95% Confidence Band</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="w-4 h-0 border-t border-dashed border-outline"></span>
+<span>NAAQS Limit (60)</span>
+</div>
+</div>
+</div>
+<!-- Vector SVG Trajectory Display -->
+<div class="w-full relative">
+<svg class="w-full h-72 sm:h-96 text-on-surface select-none overflow-visible" preserveaspectratio="none" viewbox="0 0 1000 360">
+<defs>
+<!-- Gradient for 95% uncertainty envelope -->
+<lineargradient id="envelopeGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#adceb8" stop-opacity="0.22"></stop>
+<stop offset="100%" stop-color="#adceb8" stop-opacity="0.03"></stop>
+</lineargradient>
+<!-- Soft area fill below observed line -->
+<lineargradient id="observedGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#8c928c" stop-opacity="0.18"></stop>
+<stop offset="100%" stop-color="#8c928c" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Horizontal Reference Grid & Value Labels -->
+<!-- 160 ug/m3 -->
+<line stroke="#282a29" stroke-width="1" x1="60" x2="980" y1="40" y2="40"></line>
+<text fill="#8c928c" font-family="Inter" font-size="11" text-anchor="end" x="50" y="44">160</text>
+<!-- 120 ug/m3 -->
+<line stroke="#282a29" stroke-width="1" x1="60" x2="980" y1="110" y2="110"></line>
+<text fill="#8c928c" font-family="Inter" font-size="11" text-anchor="end" x="50" y="114">120</text>
+<!-- 80 ug/m3 -->
+<line stroke="#282a29" stroke-width="1" x1="60" x2="980" y1="180" y2="180"></line>
+<text fill="#8c928c" font-family="Inter" font-size="11" text-anchor="end" x="50" y="184">80</text>
+<!-- NAAQS Standard Line 60 ug/m3 (Y: 215) -->
+<line stroke="#8c928c" stroke-dasharray="4 4" stroke-opacity="0.75" stroke-width="1" x1="60" x2="980" y1="215" y2="215"></line>
+<text fill="#adceb8" font-family="Inter" font-size="11" font-weight="600" text-anchor="end" x="50" y="219">60</text>
+<text fill="#8c928c" font-family="Inter" font-size="10" text-anchor="end" x="975" y="210">NAAQS Safe Threshold (60 µg/m³)</text>
+<!-- 40 ug/m3 -->
+<line stroke="#282a29" stroke-width="1" x1="60" x2="980" y1="250" y2="250"></line>
+<text fill="#8c928c" font-family="Inter" font-size="11" text-anchor="end" x="50" y="254">40</text>
+<!-- Base Horizon line -->
+<line stroke="#333534" stroke-width="1" x1="60" x2="980" y1="300" y2="300"></line>
+<text fill="#8c928c" font-family="Inter" font-size="11" text-anchor="end" x="50" y="304">0</text>
+<!-- Vertical Time Division Markers -->
+<!-- 16:00 Past -->
+<line stroke="#282a29" stroke-width="1" x1="90" x2="90" y1="40" y2="300"></line>
+<!-- 17:00 Past -->
+<line stroke="#282a29" stroke-width="1" x1="180" x2="180" y1="40" y2="300"></line>
+<!-- "NOW" Divider line (18:00) at x=270 -->
+<line stroke="#8faf9a" stroke-dasharray="2 3" stroke-opacity="0.4" stroke-width="1" x1="270" x2="270" y1="20" y2="300"></line>
+<rect fill="#282a29" height="18" rx="2" width="50" x="245" y="6"></rect>
+<text fill="#adceb8" font-family="Inter" font-size="10" font-weight="600" text-anchor="middle" x="270" y="19">NOW</text>
+<!-- Forecast Grid lines -->
+<!-- 19:00 (+1h) -->
+<line stroke="#282a29" stroke-width="1" x1="390" x2="390" y1="40" y2="300"></line>
+<!-- 20:00 (+2h) -->
+<line stroke="#282a29" stroke-width="1" x1="510" x2="510" y1="40" y2="300"></line>
+<!-- 21:00 (+3h Peak) -->
+<line stroke="#383a38" stroke-width="1" x1="630" x2="630" y1="40" y2="300"></line>
+<!-- 22:00 (+4h) -->
+<line stroke="#282a29" stroke-width="1" x1="740" x2="740" y1="40" y2="300"></line>
+<!-- 23:00 (+5h) -->
+<line stroke="#282a29" stroke-width="1" x1="850" x2="850" y1="40" y2="300"></line>
+<!-- 24:00 (+6h) -->
+<line stroke="#282a29" stroke-width="1" x1="960" x2="960" y1="40" y2="300"></line>
+<!-- Uncertainty Envelope Polygon (270 to 960) -->
+<!-- Points: Now(270,113.5), 19:00(390,92), 20:00(510,75), 21:00 Peak(630,68), 22:00(740,78), 23:00(850,96), 24:00(960,114) -->
+<!-- Upper bound offset -18px, lower bound offset +22px -->
+<polygon fill="url(#envelopeGrad)" points="
+            270,113.5 
+            390,80 510,64 630,55 740,68 850,88 960,105
+            960,145 850,135 740,122 630,118 510,125 390,138 270,113.5"></polygon>
+<!-- Observed Area fill -->
+<polygon fill="url(#observedGrad)" points="90,300 90,145 180,128 270,113.5 270,300"></polygon>
+<!-- Past Observed Polyline (16:00 -> 18:00) -->
+<polyline fill="none" points="90,145 180,128 270,113.5" stroke="#c2c8c1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline>
+<!-- Observed point dots -->
+<circle cx="90" cy="145" fill="#c2c8c1" r="3.5"></circle>
+<circle cx="180" cy="128" fill="#c2c8c1" r="3.5"></circle>
+<circle cx="270" cy="113.5" fill="#adceb8" r="5"></circle>
+<circle cx="270" cy="113.5" fill="none" r="8" stroke="#adceb8" stroke-opacity="0.3" stroke-width="1.5"></circle>
+<!-- Predicted Forward Trend Polyline (18:00 -> 24:00) -->
+<path d="M 270,113.5 Q 330,105 390,98 T 510,88 T 630,89 T 740,94 T 850,108 T 960,122" fill="none" stroke="#adceb8" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+<!-- Projected Points -->
+<circle cx="390" cy="98" fill="#adceb8" r="3"></circle>
+<circle cx="510" cy="88" fill="#adceb8" r="3"></circle>
+<!-- Peak point at 21:00 (Y=89 ~ 132 ug/m3) -->
+<circle cx="630" cy="89" fill="#ecbf83" r="6"></circle>
+<circle cx="630" cy="89" fill="none" r="10" stroke="#ecbf83" stroke-opacity="0.4" stroke-width="1.5"></circle>
+<circle cx="740" cy="94" fill="#adceb8" r="3"></circle>
+<circle cx="850" cy="108" fill="#adceb8" r="3"></circle>
+<circle cx="960" cy="122" fill="#adceb8" r="3"></circle>
+<!-- Peak Callout Annotation -->
+<g transform="translate(630, 48)">
+<!-- Pill card overlaying peak -->
+<rect fill="#121413" fill-opacity="0.94" height="30" rx="3" stroke="#ecbf83" stroke-opacity="0.3" stroke-width="1" width="280" x="-140" y="-38"></rect>
+<polygon fill="#121413" points="-5,-8 5,-8 0,-2"></polygon>
+<text fill="#ecbf83" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" x="0" y="-18">
+              Peak: 132 µg/m³ • Evening Buildup & Inversion
+            </text>
+</g>
+<!-- Current observation tag above Now -->
+<g transform="translate(270, 95)">
+<rect fill="#121413" fill-opacity="0.9" height="20" rx="3" stroke="#adceb8" stroke-opacity="0.25" stroke-width="1" width="110" x="-55" y="-24"></rect>
+<text fill="#e2e3e0" font-family="Inter" font-size="10.5" font-weight="500" text-anchor="middle" x="0" y="-10">Observed: 118 µg/m³</text>
+</g>
+<!-- Horizontal Time Axis Labels -->
+<text fill="#8c928c" font-family="Inter" font-size="11" text-anchor="middle" x="90" y="325">16:00</text>
+<text fill="#8c928c" font-family="Inter" font-size="11" text-anchor="middle" x="180" y="325">17:00</text>
+<text fill="#e2e3e0" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" x="270" y="325">18:00 (Now)</text>
+<text fill="#8c928c" font-family="Inter" font-size="11" text-anchor="middle" x="390" y="325">+1h (19:00)</text>
+<text fill="#8c928c" font-family="Inter" font-size="11" text-anchor="middle" x="510" y="325">+2h (20:00)</text>
+<text fill="#ecbf83" font-family="Inter" font-size="11" font-weight="600" text-anchor="middle" x="630" y="325">+3h (21:00 Peak)</text>
+<text fill="#8c928c" font-family="Inter" font-size="11" text-anchor="middle" x="740" y="325">+4h (22:00)</text>
+<text fill="#8c928c" font-family="Inter" font-size="11" text-anchor="middle" x="850" y="325">+5h (23:00)</text>
+<text fill="#8c928c" font-family="Inter" font-size="11" text-anchor="middle" x="960" y="325">+6h (24:00 Inversion)</text>
+</svg>
+</div>
+<!-- Chart Metadata Subtext -->
+<div class="mt-space-md pt-space-sm flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs text-on-surface-variant font-label-sm text-label-sm border-t border-outline-variant/30">
+<span>Model Dynamics: High-resolution Eulerian grid simulation incorporating nocturnal radiative boundary contraction</span>
+<span>Validation Factor: Sensor R² = 0.94 vs reference BAM-1020</span>
+</div>
+</div>
+<!-- Environmental Influences Section (Weather & Atmospheric Dispersion) -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Environmental Influences & Dispersion Factors</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Meteorological drivers influencing local particulate stagnation over the next 6 hours</p>
+</div>
+<span class="font-label-sm text-label-sm text-secondary bg-secondary-container/30 px-space-md py-1 rounded">Micro-Climate Active</span>
+</div>
+<!-- 4 Clean Horizontal Blocks (Planar shift, restrained palette) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- 1. Temperature -->
+<div class="p-space-lg rounded bg-surface-container hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Surface Temperature</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">device_thermostat</span>
+</div>
+<div class="flex items-baseline gap-space-xs mb-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-semibold">27°C</span>
+<span class="font-body-md text-body-md text-outline">→</span>
+<span class="font-headline-lg text-headline-lg text-secondary font-semibold">21°C</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Nighttime thermal inversion risk. Rapid surface heat radiational loss caps vertical mixing.
+          </p>
+<div class="mt-space-sm w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-3/4"></div>
+</div>
+</div>
+<!-- 2. Relative Humidity -->
+<div class="p-space-lg rounded bg-surface-container hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Relative Humidity</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">water_drop</span>
+</div>
+<div class="flex items-baseline gap-space-xs mb-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-semibold">68%</span>
+<span class="font-body-md text-body-md text-outline">→</span>
+<span class="font-headline-lg text-headline-lg text-tertiary font-semibold">82%</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Moisture accumulation encourages secondary hygroscopic particulate growth and suspension.
+          </p>
+<div class="mt-space-sm w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-4/5"></div>
+</div>
+</div>
+<!-- 3. Wind Speed & Vector -->
+<div class="p-space-lg rounded bg-surface-container hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Wind Velocity</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">air</span>
+</div>
+<div class="flex items-baseline gap-space-xs mb-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-semibold">2.1</span>
+<span class="font-code-metric text-code-metric text-outline">m/s WSW</span>
+<span class="font-body-md text-body-md text-outline">→</span>
+<span class="font-headline-lg text-headline-lg text-tertiary font-semibold">< 0.8</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Transitioning to stagnant surface conditions, sharply limiting horizontal advection across the valley.
+          </p>
+<div class="mt-space-sm w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-1/4"></div>
+</div>
+</div>
+<!-- 4. Boundary Layer Ceiling -->
+<div class="p-space-lg rounded bg-surface-container hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between text-on-surface-variant mb-space-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Boundary Layer Height</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">vertical_align_bottom</span>
+</div>
+<div class="flex items-baseline gap-space-xs mb-space-xs">
+<span class="font-headline-lg text-headline-lg text-tertiary font-semibold">480</span>
+<span class="font-code-metric text-code-metric text-outline">m AGL</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Severely reduced vertical ceiling. Atmospheric compression traps tailpipe exhaust near breathing height.
+          </p>
+<div class="mt-space-sm w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-2/5"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Diurnal Outlook Windows & Countermeasure Simulation Callout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-stretch">
+<!-- Diurnal Windows (8 cols) -->
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Diurnal Trajectory Windows</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Phenomenological cycle forecasted for the Pune metropolitan corridor</p>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Window 1: Evening Commute -->
+<div class="p-space-md rounded bg-surface-container flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded bg-tertiary/10 text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">directions_car</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm">
+<span class="font-title-sm text-title-sm text-on-surface">Evening Commute Window</span>
+<span class="font-code-metric text-code-metric text-tertiary px-2 py-0.5 rounded bg-tertiary/10">18:00 – 21:00</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                  Rising particulate concentrations from heavy arterial transit coinciding with early boundary layer contraction.
+                </p>
+</div>
+</div>
+<div class="shrink-0 flex items-center gap-space-xs text-tertiary font-body-sm text-body-sm sm:self-center">
+<span>Buildup Phase</span>
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span>
+</div>
+</div>
+<!-- Window 2: Night Stagnation -->
+<div class="p-space-md rounded bg-surface-container flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded bg-surface-container-highest text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">nights_stay</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm">
+<span class="font-title-sm text-title-sm text-on-surface">Night Thermal Stagnation</span>
+<span class="font-code-metric text-code-metric text-secondary px-2 py-0.5 rounded bg-surface-container-highest">22:00 – 04:00</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                  Valley thermal inversion keeps accumulated particulates trapped near ground level under calms (<0.8 m/s).
+                </p>
+</div>
+</div>
+<div class="shrink-0 flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm sm:self-center">
+<span>Trap Equilibrium</span>
+<span class="material-symbols-outlined text-[16px]">horizontal_rule</span>
+</div>
+</div>
+<!-- Window 3: Morning Ventilation -->
+<div class="p-space-md rounded bg-surface-container flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded bg-primary/10 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">wb_sunny</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm">
+<span class="font-title-sm text-title-sm text-on-surface">Morning Convective Ventilation</span>
+<span class="font-code-metric text-code-metric text-primary px-2 py-0.5 rounded bg-primary/10">06:00 – 10:00</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                  Solar heating breaks surface inversion, lifting the atmospheric ceiling past 1,100m and initiating natural clearance.
+                </p>
+</div>
+</div>
+<div class="shrink-0 flex items-center gap-space-xs text-primary font-body-sm text-body-sm sm:self-center">
+<span>Dispersion Rebound</span>
+<span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Scenario Lab Countermeasure Simulator Card (4 cols) -->
+<div class="lg:col-span-4 rounded bg-surface-container p-space-lg flex flex-col justify-between relative overflow-hidden shadow-md">
+<!-- Subtle background cartographic graphic -->
+<div class="flex flex-col gap-space-md relative z-10">
+<div class="inline-flex items-center gap-space-xs px-2.5 py-1 rounded bg-primary/15 text-primary text-label-sm font-label-sm w-fit uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+            Intervention Modeling
+          </div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface tracking-tight">Mitigate Predicted Peak</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs leading-relaxed">
+              Test the environmental impact of rerouting heavy freight transit or deploying localized water misting curtains during the 21:00 inversion spike.
+            </p>
+</div>
+<div class="p-space-sm rounded bg-surface-container-high flex flex-col gap-space-xs text-label-sm font-label-sm">
+<div class="flex justify-between items-center text-on-surface">
+<span>Freight Arterial Diversion</span>
+<span class="text-primary font-semibold">-18 µg/m³ peak</span>
+</div>
+<div class="flex justify-between items-center text-on-surface">
+<span>Low-Emission Corridor Active</span>
+<span class="text-primary font-semibold">-12 µg/m³ peak</span>
+</div>
+</div>
+</div>
+<div class="pt-space-lg relative z-10">
+<a class="w-full inline-flex items-center justify-center gap-space-sm px-space-lg py-2.5 rounded bg-primary text-on-primary font-title-sm text-title-sm hover:bg-primary-fixed transition-colors shadow-sm cursor-pointer" data-path="scenario-lab" href="/scenario-lab/">
+<span>Simulate Countermeasures in Scenario Lab</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+<span class="block text-center font-label-sm text-label-sm text-outline mt-space-xs">Synchronized with Pune Municipal Command Grid</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Station Picker Micro-script -->
+<script>
+    (function initForecastPage() {
+      var trigger = document.getElementById('station-dropdown-trigger');
+      var menu = document.getElementById('station-menu');
+      var label = document.getElementById('selected-station-label');
+      var valObserved = document.getElementById('val-observed');
+      var valPeak = document.getElementById('val-peak');
+
+      if (!trigger || !menu) return;
+
+      trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        menu.classList.toggle('hidden');
+        menu.classList.toggle('flex');
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!menu.contains(e.target) && !trigger.contains(e.target)) {
+          menu.classList.add('hidden');
+          menu.classList.remove('flex');
+        }
+      });
+
+      var options = menu.querySelectorAll('.station-opt');
+      options.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          var name = btn.getAttribute('data-name');
+          var curr = btn.getAttribute('data-curr');
+          var peak = btn.getAttribute('data-peak');
+
+          if (label) label.textContent = name;
+          if (valObserved) valObserved.textContent = curr;
+          if (valPeak) valPeak.textContent = peak;
+
+          menu.classList.add('hidden');
+          menu.classList.remove('flex');
+        });
+      });
+    })();
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest py-space-sm"><div class="w-full px-gutter-desktop flex flex-col sm:flex-row items-center justify-between gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span>Pune Metropolitan Environmental Observation System • Sensor Grid Telemetry</span><div class="flex items-center gap-space-md"><span>Real-time Spatial Interpolation</span><span>Atmospheric Baseline: Stable</span></div></div></footer>
+<style>
+/* Robust Light Theme Overrides - Smoky Grey Comprehensive */
+html.light-theme {
+    background-color: #f0f2f0 !important;
+    color: #1a1c1b !important;
+}
+
+/* Text Colors */
+html.light-theme .text-on-surface-variant { color: #404241 !important; }
+html.light-theme .text-on-surface { color: #1a1c1b !important; }
+html.light-theme .text-outline { color: #707271 !important; }
+html.light-theme .text-outline-variant { color: #c0c2c1 !important; }
+html.light-theme .text-secondary { color: #404943 !important; }
+html.light-theme .text-tertiary { color: #3b4b4d !important; }
+
+/* Border Colors */
+html.light-theme .border-outline { border-color: #c0c2c1 !important; }
+html.light-theme .border-outline-variant { border-color: #c0c2c1 !important; }
+html.light-theme .border-surface-variant { border-color: #dce0de !important; }
+
+/* Solid Backgrounds */
+html.light-theme .bg-surface-container-highest { background-color: #c8cac8 !important; }
+html.light-theme .bg-surface-container-high { background-color: #d2d4d2 !important; }
+html.light-theme .bg-surface-container { background-color: #dcdedc !important; }
+html.light-theme .bg-surface-container-low { background-color: #e6e8e6 !important; }
+html.light-theme .bg-surface-container-lowest { background-color: #f0f2f0 !important; }
+html.light-theme .bg-surface { background-color: #f0f2f0 !important; }
+html.light-theme main.bg-surface { background-color: #f0f2f0 !important; }
+html.light-theme .bg-tertiary-fixed-dim { background-color: #cce8e9 !important; color: #051f21 !important; }
+html.light-theme .bg-outline { background-color: #707271 !important; }
+
+/* Transparent Backgrounds */
+html.light-theme .bg-surface-container-high\/95 { background-color: rgba(210, 212, 210, 0.95) !important; }
+html.light-theme .bg-surface-container\/90 { background-color: rgba(220, 222, 220, 0.90) !important; }
+html.light-theme .bg-surface-container\/95 { background-color: rgba(220, 222, 220, 0.95) !important; }
+html.light-theme .bg-surface-container-low\/95 { background-color: rgba(230, 232, 230, 0.95) !important; }
+html.light-theme .bg-surface\/10 { background-color: rgba(240, 242, 240, 0.7) !important; }
+html.light-theme .bg-surface\/50 { background-color: rgba(240, 242, 240, 0.5) !important; }
+html.light-theme .bg-surface\/80 { background-color: rgba(240, 242, 240, 0.8) !important; }
+
+/* UI Elements */
+html.light-theme .bg-primary { background-color: #476553 !important; color: #ffffff !important; }
+html.light-theme .text-primary { color: #476553 !important; }
+html.light-theme .ring-on-surface\/20 { --tw-ring-color: rgba(26, 28, 27, 0.2) !important; }
+</style>
+<script>
+if (localStorage.getItem('theme') === 'light') { document.documentElement.classList.add('light-theme'); }
+document.addEventListener("DOMContentLoaded", function() {
+    const btn = document.getElementById('theme-toggle');
+    const icon = btn ? btn.querySelector('span') : null;
+    
+    if (localStorage.getItem('theme') === 'light' && icon) {
+        icon.innerText = 'dark_mode';
+    }
+    
+    if (btn) {
+        btn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('light-theme');
+            const isLight = document.documentElement.classList.contains('light-theme');
+            
+            if (isLight) {
+                localStorage.setItem('theme', 'light');
+                icon.innerText = 'dark_mode';
+                if(window.currentTileLayer) {
+                    window.currentTileLayer.setUrl('https://maps.geoapify.com/v1/tile/positron/{z}/{x}/{y}.png?apiKey=9ffb1a454708470d85abd020c40c9cb5');
+                }
+            } else {
+                localStorage.setItem('theme', 'dark');
+                icon.innerText = 'light_mode';
+                if(window.currentTileLayer) {
+                    window.currentTileLayer.setUrl('https://maps.geoapify.com/v1/tile/dark-matter/{z}/{x}/{y}.png?apiKey=9ffb1a454708470d85abd020c40c9cb5');
+                }
+            }
+        });
+    }
+});
+</script>
+
+  <script src="/intro.js?v=5"></script>
+</body></html>
