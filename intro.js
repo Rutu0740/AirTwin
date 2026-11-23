@@ -45,7 +45,7 @@ function runIntro() {
     canvas.id = "intro-canvas";
     overlay.appendChild(canvas);
     
-    const logoUrl = "https://lh3.googleusercontent.com/aida/AEtjO1XO6_tDByOL1sPBx-a585Vr97qtjvT1TPzq6q4qvx4rZpjcQmEw5FVe9AJpQ2IS1WsKCoKkZO0BwLFIO3wG454ByWYyS13dRob2kaqYCZ7Bly8zhWghZmgtwTsRJX7hlaFenacK2koZxoS_RtGeDEGAxZNnNlDWuP-G8QxsxAI1dFp9-HWC735X2TMAMK8tnKFYEGaDql25OqG0jbpOnrA5YCB8uneNHkBtHJCLYT4Glxj_tXoBYzkVsbgg";
+    const logoUrl = "/logo-mark.svg";
     
     const logoHtml = `
         <div id="intro-logo-container">
