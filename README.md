@@ -184,3 +184,17 @@ The Stitch export renders the map as static illustrative art (glow blobs + line-
 - Frontend is no longer Streamlit + PyDeck (see `MEMORY.md` ADR-06) — it's the static Tailwind build above, served by FastAPI.
 - The dashboard is 4 screens (`Overview`, `Hotspots`, `Forecast`, `Scenario Lab`), not a generic 3-panel layout — `REQUIREMENTS.md` §3 and `PHASES.md` Phase 5 have been updated to match this exactly.
 - All illustrative numbers baked into the Stitch export (118 µg/m³, 132 µg/m³ peak, 41% Traffic, etc.) are mockup placeholders only and must be replaced by live `/api/...` values — see `MEMORY.md` §5, point 6.
+
+## 9. Running the twin (RUN-004, twin_v1.0)
+
+```
+pip install fastapi uvicorn xgboost pandas pyarrow
+python -m twin.train            # trains + validates, writes artifacts/twin_model.json and twin_metrics.json
+python -m uvicorn main:app --port 8000
+```
+
+- `twin/` holds the model code: `config.py` (stations, zones, feature groups, levers; assumptions labelled), `features.py`, `train.py`, `service.py`.
+- Endpoints: `/api/meta`, `/api/stations`, `/api/observations`, `/api/grid`, `/api/layers`, `/api/attribution`, `/api/forecast`, `/api/scenario`, `/api/scenario/spatial`, `/api/decide`, `/api/validation`.
+- The app replays 2025 data (sensor PM2.5 ends 2025-12-31); ERA5 reanalysis stands in for a live weather-forecast feed.
+- Population exposure stays "not computed" until a population raster is added as `datasets for training/pune_population_grid.parquet` (columns `lat`, `lon`, `population`).
+- Station and industrial-zone coordinates in `twin/config.py` are approximate; verify them against CPCB/MPCB metadata.

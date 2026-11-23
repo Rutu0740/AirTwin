@@ -1,0 +1,494 @@
+{
+  "run_id": "RUN-004",
+  "model_version": "twin_v1.0",
+  "best_iteration": 139,
+  "features": [
+    "traffic_activity",
+    "road_exposure",
+    "industry_activity",
+    "industry_exposure",
+    "dust_activity",
+    "burning_activity",
+    "era5_temp_2m_k",
+    "era5_dewpoint_2m_k",
+    "era5_wind_u100_ms",
+    "era5_wind_v100_ms",
+    "era5_boundary_layer_height_m",
+    "era5_surface_pressure_pa",
+    "era5_total_precipitation_m",
+    "era5_total_cloud_cover_frac",
+    "era5_skin_temp_k",
+    "era5_surface_latent_heat_flux_jm2",
+    "era5_surface_thermal_radiation_down_jm2",
+    "era5_surface_sensible_heat_flux_jm2",
+    "era5_wind_speed_100m_ms",
+    "precip_72h_m",
+    "rel_humidity_pct",
+    "month_sin",
+    "month_cos",
+    "dist_center_km"
+  ],
+  "monotone_increasing": [
+    "traffic_activity",
+    "industry_activity",
+    "dust_activity",
+    "burning_activity"
+  ],
+  "periods": {
+    "train": [
+      "2024-01-01 00:00:00+05:30",
+      "2024-12-31 23:00:00+05:30"
+    ],
+    "validation": [
+      "2025-01-01 00:00:00+05:30",
+      "2025-03-31 23:00:00+05:30"
+    ],
+    "test": [
+      "2025-04-01 00:00:00+05:30",
+      "2025-12-31 23:00:00+05:30"
+    ]
+  },
+  "train": {
+    "mae": 9.309451114600485,
+    "rmse": 16.95205709715416,
+    "r2": 0.6701825637144341,
+    "n": 67440
+  },
+  "validation": {
+    "mae": 18.6677260175162,
+    "rmse": 25.71423617302213,
+    "r2": 0.17646710954596934,
+    "n": 19559
+  },
+  "test": {
+    "mae": 16.438484140903423,
+    "rmse": 27.27848321870137,
+    "r2": 0.43460397757105973,
+    "n": 52634
+  },
+  "baselines_test": {
+    "note": "Scored on identical test rows where every baseline is available.",
+    "n_rows": 47871,
+    "twin_model": {
+      "mae": 16.353475932166294,
+      "rmse": 26.99883291497583,
+      "r2": 0.4439067566995314,
+      "n": 47871
+    },
+    "persistence_24h": {
+      "mae": 11.244452466183263,
+      "rmse": 22.163563336142538,
+      "r2": 0.6252541723584238,
+      "n": 47871
+    },
+    "persistence_72h": {
+      "mae": 14.071856366854048,
+      "rmse": 24.262867606563905,
+      "r2": 0.5509012019317401,
+      "n": 47871
+    },
+    "nearest_station_same_hour": {
+      "mae": 20.426565238312755,
+      "rmse": 32.807813676615105,
+      "r2": 0.17886944006741978,
+      "n": 47871
+    }
+  },
+  "leave_one_station_out_test": {
+    "site_292": {
+      "name": "Karve Road (MPCB)",
+      "seen_in_training": true,
+      "held_out": {
+        "mae": 67.21781439396852,
+        "rmse": 72.10112557583754,
+        "r2": -4.464587475325112,
+        "n": 1179
+      },
+      "nearest_station": {
+        "mae": 74.66190674834606,
+        "rmse": 81.21470422494582,
+        "r2": -5.93334206588653,
+        "n": 1179
+      }
+    },
+    "site_5404": {
+      "name": "Mhada Colony (IITM)",
+      "seen_in_training": true,
+      "held_out": {
+        "mae": 18.92142501012609,
+        "rmse": 27.483725430271615,
+        "r2": 0.4471005247792731,
+        "n": 6333
+      },
+      "nearest_station": {
+        "mae": 16.644403285483975,
+        "rmse": 26.499128419411328,
+        "r2": 0.48600587494592373,
+        "n": 6333
+      }
+    },
+    "site_5406": {
+      "name": "Bhosari (IITM)",
+      "seen_in_training": true,
+      "held_out": {
+        "mae": 7.872007827431364,
+        "rmse": 11.27487725418698,
+        "r2": 0.054834818409231656,
+        "n": 3839
+      },
+      "nearest_station": {
+        "mae": 13.92321984506382,
+        "rmse": 18.935887840134733,
+        "r2": -1.6659709605724906,
+        "n": 3839
+      }
+    },
+    "site_5407": {
+      "name": "Hadapsar (IITM)",
+      "seen_in_training": true,
+      "held_out": {
+        "mae": 32.98564765638872,
+        "rmse": 48.56429296328142,
+        "r2": 0.3715398644204678,
+        "n": 2830
+      },
+      "nearest_station": {
+        "mae": 29.186982323469966,
+        "rmse": 44.38673873103941,
+        "r2": 0.4750111643333783,
+        "n": 2830
+      }
+    },
+    "site_5408": {
+      "name": "Transport Nagar-Nigdi (IITM)",
+      "seen_in_training": true,
+      "held_out": {
+        "mae": 11.039954728414287,
+        "rmse": 15.790375556319338,
+        "r2": 0.5440254477259632,
+        "n": 5596
+      },
+      "nearest_station": {
+        "mae": 19.977389377266796,
+        "rmse": 34.42278719194007,
+        "r2": -1.1669443132541857,
+        "n": 5596
+      }
+    },
+    "site_5409": {
+      "name": "Revenue Colony-Shivajinagar (IITM)",
+      "seen_in_training": true,
+      "held_out": {
+        "mae": 25.07787942553535,
+        "rmse": 33.87884147556555,
+        "r2": 0.2328604127145525,
+        "n": 4633
+      },
+      "nearest_station": {
+        "mae": 32.230863532780056,
+        "rmse": 40.26306310753958,
+        "r2": -0.0835049922192328,
+        "n": 4633
+      }
+    },
+    "site_5766": {
+      "name": "Katraj Dairy (MPCB)",
+      "seen_in_training": true,
+      "held_out": {
+        "mae": 10.36849180804635,
+        "rmse": 15.000133242469664,
+        "r2": 0.3444221669405939,
+        "n": 5940
+      },
+      "nearest_station": {
+        "mae": 25.08021836488047,
+        "rmse": 38.291518962038616,
+        "r2": -3.2720784152945344,
+        "n": 5940
+      }
+    },
+    "site_5767": {
+      "name": "SPPU (MPCB)",
+      "seen_in_training": true,
+      "held_out": {
+        "mae": 17.951419977053014,
+        "rmse": 25.065482499217108,
+        "r2": 0.039197466894527966,
+        "n": 6197
+      },
+      "nearest_station": {
+        "mae": 13.307543319482008,
+        "rmse": 22.826353210083514,
+        "r2": 0.2031894645446345,
+        "n": 6197
+      }
+    },
+    "site_5988": {
+      "name": "Bhumkar Nagar (IITM)",
+      "seen_in_training": true,
+      "held_out": {
+        "mae": 19.6646259526111,
+        "rmse": 33.44228059556123,
+        "r2": 0.4378964120863924,
+        "n": 6182
+      },
+      "nearest_station": {
+        "mae": 20.22733745684002,
+        "rmse": 34.259717588616326,
+        "r2": 0.41008132916039275,
+        "n": 6182
+      }
+    },
+    "site_5996": {
+      "name": "Panchawati Pashan (IITM)",
+      "seen_in_training": true,
+      "held_out": {
+        "mae": 11.061209566463416,
+        "rmse": 15.704523824311858,
+        "r2": 0.51747235670486,
+        "n": 6188
+      },
+      "nearest_station": {
+        "mae": 12.34033614636878,
+        "rmse": 21.892546189140052,
+        "r2": 0.062297222603040936,
+        "n": 6188
+      }
+    },
+    "site_6012": {
+      "name": "Dhankawadi (IITM)",
+      "seen_in_training": false,
+      "held_out": {
+        "mae": 13.85837030566587,
+        "rmse": 20.30813516171168,
+        "r2": 0.5827590849525718,
+        "n": 3717
+      },
+      "nearest_station": {
+        "mae": 15.466835431600755,
+        "rmse": 24.09183645692961,
+        "r2": 0.41279923660000195,
+        "n": 3717
+      }
+    }
+  },
+  "leave_one_station_out_summary": {
+    "mean_mae_held_out": 21.45625878651855,
+    "mean_mae_nearest_station": 24.822457802871156
+  },
+  "station_forecast_by_horizon_test": {
+    "6h": {
+      "k": 0.9,
+      "n": 50846,
+      "twin_residual_corrected": {
+        "mae": 10.009243839831317,
+        "rmse": 17.698254137315228,
+        "r2": 0.7627667382107084,
+        "n": 50846
+      },
+      "twin_raw": {
+        "mae": 16.33790112526694,
+        "rmse": 27.129260137381458,
+        "r2": 0.4425696304756992,
+        "n": 50846
+      },
+      "persistence": {
+        "mae": 13.230971951670105,
+        "rmse": 25.027070335563195,
+        "r2": 0.5256108425209933,
+        "n": 50846
+      }
+    },
+    "24h": {
+      "k": 0.8500000000000001,
+      "n": 49245,
+      "twin_residual_corrected": {
+        "mae": 11.291466446248876,
+        "rmse": 19.500639630746694,
+        "r2": 0.7129725373688767,
+        "n": 49245
+      },
+      "twin_raw": {
+        "mae": 16.345884947358844,
+        "rmse": 27.21135050863717,
+        "r2": 0.4411105245259914,
+        "n": 49245
+      },
+      "persistence": {
+        "mae": 10.675936889850767,
+        "rmse": 19.866581264733885,
+        "r2": 0.7020989632663919,
+        "n": 49245
+      }
+    },
+    "48h": {
+      "k": 0.8,
+      "n": 48050,
+      "twin_residual_corrected": {
+        "mae": 12.40094651864435,
+        "rmse": 21.005122729049752,
+        "r2": 0.6648830860335933,
+        "n": 48050
+      },
+      "twin_raw": {
+        "mae": 16.3610079446868,
+        "rmse": 27.105860760620118,
+        "r2": 0.44195103444938144,
+        "n": 48050
+      },
+      "persistence": {
+        "mae": 12.815753090798541,
+        "rmse": 22.766204279238693,
+        "r2": 0.6063346792235913,
+        "n": 48050
+      }
+    },
+    "72h": {
+      "k": 0.75,
+      "n": 47473,
+      "twin_residual_corrected": {
+        "mae": 12.916719855576067,
+        "rmse": 21.68346927362479,
+        "r2": 0.6425587230802952,
+        "n": 47473
+      },
+      "twin_raw": {
+        "mae": 16.372284165213305,
+        "rmse": 27.040173468404603,
+        "r2": 0.4441391184746827,
+        "n": 47473
+      },
+      "persistence": {
+        "mae": 14.04903735895941,
+        "rmse": 24.230404243278613,
+        "r2": 0.5536572504635657,
+        "n": 47473
+      }
+    }
+  },
+  "attribution_sanity": {
+    "note": "Mean grouped TreeSHAP contribution (\u00b5g/m\u00b3) \u2014 model-attributed, not causal.",
+    "traffic_rush_hour": 0.33453109860420227,
+    "traffic_night": -0.911228358745575,
+    "burning_winter": 5.966996669769287,
+    "burning_monsoon": -5.023508071899414,
+    "dust_dry_72h": 0.6757873296737671,
+    "dust_wet_72h": -0.3286099135875702,
+    "overall_positive_share_pct": {
+      "traffic": 10.7,
+      "industry": 11.3,
+      "dust": 2.8,
+      "burning": 17.3,
+      "meteorology": 47.8,
+      "seasonal_background": 10.1
+    }
+  },
+  "natural_experiment_weekend": {
+    "note": "Observed vs modeled (weekend - weekday) mean PM2.5 over the test year, same hours.",
+    "observed_diff": -1.257214837758795,
+    "modeled_diff": 0.04351806640625
+  },
+  "residual_quantiles_validation": {
+    "p10": -23.61912872314453,
+    "p90": 35.39275079345705
+  },
+  "training_ranges": {
+    "traffic_activity": [
+      8.472514006106916e-05,
+      0.6624918696923543
+    ],
+    "road_exposure": [
+      0.0004242421660846327,
+      1.0196970911044831
+    ],
+    "industry_activity": [
+      0.028636356354220734,
+      0.8844353101199205
+    ],
+    "industry_exposure": [
+      0.047727260590367894,
+      0.8844353101199205
+    ],
+    "dust_activity": [
+      0.0,
+      0.9119700468136456
+    ],
+    "burning_activity": [
+      0.020000000000000004,
+      1.0
+    ],
+    "era5_temp_2m_k": [
+      287.46072,
+      308.69714
+    ],
+    "era5_dewpoint_2m_k": [
+      280.0654,
+      297.1114
+    ],
+    "era5_wind_u100_ms": [
+      -6.0994873,
+      10.172302
+    ],
+    "era5_wind_v100_ms": [
+      -3.7918351869999998,
+      5.207877823000005
+    ],
+    "era5_boundary_layer_height_m": [
+      15.440641,
+      2847.035
+    ],
+    "era5_surface_pressure_pa": [
+      92223.70716,
+      93774.64
+    ],
+    "era5_total_precipitation_m": [
+      0.0,
+      0.0026180719870000082
+    ],
+    "era5_total_cloud_cover_frac": [
+      0.0,
+      1.0
+    ],
+    "era5_skin_temp_k": [
+      285.1635,
+      316.2574
+    ],
+    "era5_surface_latent_heat_flux_jm2": [
+      -1229289.5,
+      5581.0
+    ],
+    "era5_surface_thermal_radiation_down_jm2": [
+      1056326.2,
+      1574936.4
+    ],
+    "era5_surface_sensible_heat_flux_jm2": [
+      -1087342.0,
+      97558.5
+    ],
+    "era5_wind_speed_100m_ms": [
+      0.5963550197780064,
+      10.88633553611205
+    ],
+    "precip_72h_m": [
+      0.0,
+      0.1426255389584
+    ],
+    "rel_humidity_pct": [
+      24.228939352036832,
+      98.64563013126856
+    ],
+    "month_sin": [
+      -1.0,
+      1.0
+    ],
+    "month_cos": [
+      -1.0,
+      1.0
+    ],
+    "dist_center_km": [
+      1.34110876088662,
+      17.89890931331402
+    ]
+  },
+  "deployed_model_note": "Metrics above come from the chronological split model; the deployed model is refit on all verified 2024-25 data with the same tree count."
+}

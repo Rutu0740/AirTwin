@@ -1,74 +1,157 @@
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import RedirectResponse
-from pydantic import BaseModel
-from typing import Dict, Optional
+"""UrbanAir Twin API — every number served here comes from data or the trained twin model.
+
+Run:  uvicorn main:app --port 8000   (from C:/HM/AirTwin; train first with `python -m twin.train`)
+"""
 import os
+from typing import Literal, Optional
 
-# Simplified models imports
-from models.ml_service import predict_pm25
+from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel, Field
 
-app = FastAPI()
+from twin import config as C
+from twin import service as S
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+app = FastAPI(title="UrbanAir Twin API", version="twin_v1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
+
+def guard(fn, *a, **kw):
+    try:
+        return fn(*a, **kw)
+    except (ValueError, KeyError) as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+# ---------------------------------------------------------------- pages
 @app.get("/")
-def read_root():
+def root():
     return RedirectResponse(url="/overview/")
 
-@app.get("/api/observations")
-def get_obs(station: str = ""):
-    return {"value": 75.0, "state": "OBSERVED"}
 
-@app.get("/api/forecast")
-def get_forecast(station: str = "", horizon: int = 24):
-    return predict_pm25({})
+for _page in ("overview", "hotspots", "forecast", "scenario-lab"):
+    def _make(p=_page):
+        return lambda: FileResponse(os.path.join(HERE, f"{p}.html"))
+    app.get(f"/{_page}/", include_in_schema=False)(_make())
 
-@app.get("/api/attribution")
-def get_attr(station: str = ""):
+
+# ---------------------------------------------------------------- meta
+@app.get("/api/meta")
+def meta():
+    m = S.model_metrics()
+    return {"model_version": m["model_version"], "default_at": S.DEFAULT_AT, "threshold_ugm3": C.HOTSPOT_THRESHOLD,
+            "max_reduction_pct": C.MAX_REDUCTION_PCT, "levers": list(C.LEVERS), "proxies": C.PROXY_NOTES,
+            "bbox": C.BBOX, "disclaimer": S.DISCLAIMER,
+            "weather_range": [str(S.weather().index.min()), str(S.weather().index.max())]}
+
+
+@app.get("/api/layers")
+def layers():
+    import pandas as pd
+    s = pd.read_parquet(C.TRAFFIC_SURVEY)
+    s = s[(s.survey_type == "Traffic Count") & s.latitude.notna()]
     return {
-        "traffic": 20.0,
-        "industry": 25.0,
-        "dust_burning": 47.0,
-        "background": 8.0,
-        "assumptions": ["Contributing factors are estimated by the atmospheric twin to provide actionable municipal guidance."]
+        "traffic_corridors": [{"name": r.location_name, "category": r.road_category, "lat": r.latitude,
+                               "lon": r.longitude} for r in s.itertuples()],
+        "industrial_zones": [{"name": n, "lat": a, "lon": b} for n, a, b in C.INDUSTRIAL_ZONES],
+        "notes": {"traffic_corridors": "ARAI 2021 traffic-count survey locations.",
+                  "industrial_zones": "Approximate centroids (assumption) — verify before pilot use."},
     }
 
+
+@app.get("/api/validation")
+def validation():
+    return S.model_metrics()
+
+
+# ---------------------------------------------------------------- OBSERVE
+@app.get("/api/stations")
+def stations(at: Optional[str] = None):
+    return guard(S.station_snapshot, at)
+
+
+@app.get("/api/observations")
+def observations(station: str, at: Optional[str] = None, hours: int = Query(72, ge=1, le=24 * 14)):
+    return guard(S.observation_series, station, at, hours)
+
+
+@app.get("/api/grid")
+def grid(at: Optional[str] = None, hours: int = 1):
+    if not 1 <= hours <= 24:
+        raise HTTPException(400, "hours must be 1–24")
+    return guard(S.grid_snapshot, at, hours)
+
+
+# ---------------------------------------------------------------- EXPLAIN
+@app.get("/api/attribution")
+def attribution(lat: Optional[float] = None, lon: Optional[float] = None, station: Optional[str] = None,
+                at: Optional[str] = None, hours: int = 1):
+    if station:
+        st = S.stations().set_index("station_id")
+        if station not in st.index:
+            raise HTTPException(400, f"Unknown station {station}")
+        lat, lon = float(st.loc[station, "lat"]), float(st.loc[station, "lon"])
+    if lat is None or lon is None:
+        raise HTTPException(400, "Provide station or lat & lon")
+    return guard(S.attribution, lat, lon, at, hours)
+
+
+# ---------------------------------------------------------------- PREDICT
+@app.get("/api/forecast")
+def forecast(station: str, at: Optional[str] = None, horizon: int = 72):
+    if not 1 <= horizon <= 72:
+        raise HTTPException(400, "horizon must be 1–72 hours")
+    return guard(S.forecast, station, at, horizon)
+
+
+# ---------------------------------------------------------------- SIMULATE / DECIDE
+class Area(BaseModel):
+    type: Literal["city", "station", "point"] = "city"
+    station_id: Optional[str] = None
+    lat: Optional[float] = None
+    lon: Optional[float] = None
+    radius_km: float = Field(2.5, gt=0, le=20)
+
+
 class ScenarioReq(BaseModel):
-    baseline_features: Dict[str, float]
-    traffic_reduction: float
-    industrial_control: float
-    dust_control: float
-    burning_reduction: Optional[float] = 0.0
+    traffic_reduction: float = Field(0, ge=0, le=C.MAX_REDUCTION_PCT)
+    industrial_control: float = Field(0, ge=0, le=C.MAX_REDUCTION_PCT)
+    dust_control: float = Field(0, ge=0, le=C.MAX_REDUCTION_PCT)
+    burning_reduction: float = Field(0, ge=0, le=C.MAX_REDUCTION_PCT)
+    area: Area = Area()
+    at: Optional[str] = None
+    hours: int = Field(4, ge=1, le=24)
+
+
+def _reductions(r: ScenarioReq):
+    return {"traffic": r.traffic_reduction, "industry": r.industrial_control,
+            "dust": r.dust_control, "burning": r.burning_reduction}
+
 
 @app.post("/api/scenario")
 def scenario(req: ScenarioReq):
-    req_dict = req.dict()
-    baseline = 118.0
-    traffic = req_dict.get('traffic_reduction', 0)
-    industrial = req_dict.get('industrial_control', 0)
-    dust = req_dict.get('dust_control', 0)
-    
-    reduction_factor = (traffic * 0.45 + dust * 0.35 + industrial * 0.20) / 100.0
-    scenario_prediction = max(15.0, baseline * (1.0 - reduction_factor))
-    absolute_change = scenario_prediction - baseline
-    percent_change = (absolute_change / baseline) * 100
-    
-    return {
-        "scenario_id": "sim_live_calc",
-        "model_version": "v2.1_dynamic",
-        "baseline_prediction": round(baseline, 1),
-        "scenario_prediction": round(scenario_prediction, 1),
-        "absolute_change": round(absolute_change, 1),
-        "percent_change": round(percent_change, 1),
-        "state": "MODELED_SCENARIO",
-        "inputs": req_dict
-    }
+    out = guard(S.run_scenario, _reductions(req), req.area.model_dump(), req.at, req.hours, with_cells=False)
+    return out
+
 
 @app.post("/api/scenario/spatial")
-def spatial_scenario(req: ScenarioReq):
-    return [{"grid_id": 1, "baseline_prediction": 118.0, "scenario_prediction": 95.0, "delta_pm25": -23.0}]
+def scenario_spatial(req: ScenarioReq):
+    return guard(S.run_scenario, _reductions(req), req.area.model_dump(), req.at, req.hours, with_cells=True)
 
-frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
-if os.path.exists(frontend_path):
-    app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
+
+class DecideReq(BaseModel):
+    reduction_pct: float = Field(20, gt=0, le=C.MAX_REDUCTION_PCT)
+    area: Area = Area()
+    at: Optional[str] = None
+    hours: int = Field(4, ge=1, le=24)
+
+
+@app.post("/api/decide")
+def decide(req: DecideReq):
+    return guard(S.decide, req.reduction_pct, req.area.model_dump(), req.at, req.hours)
+
+
+app.mount("/", StaticFiles(directory=HERE), name="static")
