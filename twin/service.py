@@ -32,7 +32,7 @@ def model_metrics() -> dict:
 
 @lru_cache(None)
 def weather() -> pd.DataFrame:
-    w = F.city_weather()
+    w = pd.read_parquet(C.CITY_WEATHER) if C.CITY_WEATHER.exists() else F.city_weather()
     return w.set_index("timestamp")
 
 
@@ -69,6 +69,8 @@ def grid() -> pd.DataFrame:
 
 @lru_cache(None)
 def observations() -> pd.DataFrame:
+    if C.SENSOR_OBS.exists():
+        return pd.read_parquet(C.SENSOR_OBS)
     m = pd.read_parquet(C.MASTER_PARQUET, columns=["station_id", "timestamp", "pm2_5_ugm3", "pm25_source"])
     m = m[(m.pm25_source == "iitm_mpcb_sensor") & m.pm2_5_ugm3.between(0, 500)]
     return m[["station_id", "timestamp", "pm2_5_ugm3"]].sort_values("timestamp")

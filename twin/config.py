@@ -10,10 +10,22 @@ ROOT = Path(__file__).resolve().parent.parent           # C:/HM/AirTwin
 DATA_DIR = ROOT.parent / "datasets for training"
 ARTIFACTS = ROOT / "artifacts"
 
+RUNTIME_DIR = ROOT / "data"                              # slim bundle committed to the repo
+
 TRAINING_CSV = DATA_DIR / "pune_xgboost_randomforest_training.csv"
 MASTER_PARQUET = DATA_DIR / "pune_master_dataset_2021_2026.parquet"
-TRAFFIC_SURVEY = DATA_DIR / "pune_traffic_survey_stations.parquet"
-CONGESTION_SAMPLE = DATA_DIR / "pune_traffic_congestion_toy_sample.parquet"
+
+
+def _pick(name):
+    """Prefer the full dataset folder; fall back to the repo's runtime bundle."""
+    full = DATA_DIR / name
+    return full if full.exists() else RUNTIME_DIR / name
+
+
+TRAFFIC_SURVEY = _pick("pune_traffic_survey_stations.parquet")
+CONGESTION_SAMPLE = _pick("pune_traffic_congestion_toy_sample.parquet")
+CITY_WEATHER = RUNTIME_DIR / "city_weather_era5.parquet"
+SENSOR_OBS = RUNTIME_DIR / "sensor_observations.parquet"
 EMISSION_INVENTORY = DATA_DIR / "pune_emission_inventory_baseline_2021.parquet"
 POPULATION_GRID = DATA_DIR / "pune_population_grid.parquet"   # optional: cols lat, lon, population
 
