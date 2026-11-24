@@ -225,6 +225,9 @@
   const css = document.createElement('style');
   css.textContent = `.twin-heat{image-rendering:auto;mix-blend-mode:normal;transition:opacity .25s}
   .leaflet-tooltip.twin-tip{background:rgba(18,20,19,.92);color:#e2e3e0;border:1px solid #424843;border-radius:8px;padding:6px 9px;font:12px/1.35 Inter,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.35)}
-  .leaflet-tooltip.twin-tip:before{display:none}`;
+  .leaflet-tooltip.twin-tip:before{display:none}
+  /* Leaflet panes use z-index 200-1000; keep them inside the map so they never cover the fixed header */
+  .leaflet-container{position:relative;z-index:0;isolation:isolate}
+  header.fixed{z-index:2000 !important}`;
   document.head.appendChild(css);
 })();
