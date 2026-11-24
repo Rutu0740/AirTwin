@@ -17,7 +17,7 @@ html.light-theme .leaflet-layer {
 </style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#032113", "inverse-surface": "#e2e3e0", "on-surface-variant": "#c2c8c1", "surface-tint": "#adceb8", "primary-container": "#8faf9a", "tertiary-fixed": "#ffddb4", "on-error": "#690005", "outline-variant": "#424843", "background": "#121413", "on-tertiary-fixed": "#291800", "on-error-container": "#ffdad6", "tertiary": "#ecbf83", "on-background": "#e2e3e0", "on-tertiary": "#452b00", "outline": "#8c928c", "inverse-primary": "#476553", "on-secondary-fixed-variant": "#364a4e", "on-primary": "#193627", "primary-fixed-dim": "#adceb8", "on-tertiary-container": "#543707", "inverse-on-surface": "#2f3130", "on-secondary": "#203437", "tertiary-fixed-dim": "#ecbf83", "surface-bright": "#383a38", "surface-container-highest": "#333534", "error": "#ffb4ab", "surface-container-low": "#1a1c1b", "surface": "#121413", "error-container": "#93000a", "on-tertiary-fixed-variant": "#604111", "on-surface": "#e2e3e0", "surface-variant": "#333534", "on-secondary-fixed": "#091e22", "on-primary-fixed-variant": "#304d3c", "secondary": "#b5cacf", "on-secondary-container": "#a3b9bd", "tertiary-container": "#cba068", "secondary-container": "#364a4e", "secondary-fixed": "#d0e6eb", "primary": "#adceb8", "surface-dim": "#121413", "secondary-fixed-dim": "#b5cacf", "primary-fixed": "#c9ebd4", "surface-container": "#1e201f", "on-primary-container": "#264332", "surface-container-lowest": "#0d0f0e", "surface-container-high": "#282a29" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "margin-desktop": "2rem", "margin": "1rem", "gutter": "1rem", "space-xs": "0.25rem", "space-xl": "2.5rem", "space-sm": "0.5rem", "space-md": "1rem", "space-lg": "1.5rem", "gutter-desktop": "1.5rem" }, "fontFamily": { "body-sm": ["Inter"], "headline-xl": ["Manrope"], "code-metric": ["Inter"], "headline-lg": ["Manrope"], "title-sm": ["Inter"], "body-md": ["Inter"], "display-lg-mobile": ["Manrope"], "headline-md": ["Manrope"], "body-lg": ["Inter"], "label-md": ["Inter"], "label-sm": ["Inter"], "display-lg": ["Manrope"] }, "fontSize": { "body-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400"}], "headline-xl": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.015em", "fontWeight": "600"}], "code-metric": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}], "headline-lg": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}], "title-sm": ["15px", {"lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "600"}], "body-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400"}], "display-lg-mobile": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "600"}], "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "500"}], "body-lg": ["15px", {"lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400"}], "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}], "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500"}], "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}] } } } };</script>  <link href="/intro.css?v=4" rel="stylesheet"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="/twin-ui.js?v=6"></script>
+<script src="/twin-ui.js?v=7"></script>
 <link rel="icon" type="image/svg+xml" href="/logo-mark.svg"/>
 </head><body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary min-h-screen flex flex-col"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-gutter-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md shrink-0"><img alt="UrbanAir Twin Minimal Logo" class="h-9 w-9 rounded-[10px] object-contain" src="/logo-mark.svg"/><div class="flex flex-col"><span class="font-title-sm text-title-sm text-on-surface tracking-tight leading-none">UrbanAir Twin</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-none mt-1">Metropolitan Intelligence</span></div></div><nav class="hidden md:flex items-center gap-space-xs p-1 bg-surface-container rounded-lg" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm"><a class="px-space-md py-1.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="overview" href="/overview/">Overview</a><a class="px-space-md py-1.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="hotspots" href="/hotspots/">Hotspots</a><a class="px-space-md py-1.5 rounded-lg font-body-md text-body-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="forecast" href="/forecast/">Forecast</a><a aria-current="page" class="px-space-md py-1.5 transition-colors bg-primary-container text-on-primary-container font-semibold rounded-lg shadow-sm" data-path="scenario-lab" href="/scenario-lab/">Scenario Lab</a></nav><div class="flex items-center gap-space-md shrink-0"><div class="hidden sm:flex items-center gap-space-sm px-space-md py-1.5 rounded-lg bg-surface-container"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-40"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span></span><span class="font-body-sm text-body-sm text-on-surface font-medium">Pune, India</span><span class="font-label-sm text-label-sm text-outline">|</span><span class="font-code-metric text-code-metric text-on-surface-variant">14:30 IST</span><span class="font-label-sm text-label-sm text-outline hidden lg:inline">|</span><span class="font-label-sm text-label-sm text-on-surface-variant hidden lg:inline">Municipal Live Feed</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><button id="theme-toggle" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shrink-0 border border-outline-variant hover:bg-surface-container-high transition-colors ml-2">
   <span class="material-symbols-outlined text-on-surface text-[18px]">light_mode</span>
@@ -95,15 +95,19 @@ html.light-theme .leaflet-layer {
 
     <div class="bg-surface-container rounded-xl p-space-lg shadow-sm">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-        <h2 class="font-title-sm text-title-sm text-on-surface">Where the change lands</h2>
-        <div class="flex items-center gap-1 p-1 bg-surface-container-low rounded-lg text-sm" id="view-toggle">
-          <button data-view="baseline" class="px-3 py-1 rounded-lg">Baseline</button>
-          <button data-view="scenario" class="px-3 py-1 rounded-lg">Scenario</button>
-          <button data-view="delta" class="px-3 py-1 rounded-lg">Change</button>
+        <h2 class="font-title-sm text-title-sm text-on-surface">Before &rarr; after</h2>
+        <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1 p-1 bg-surface-container-low rounded-lg text-sm" id="view-toggle">
+            <button data-view="compare" class="px-3 py-1 rounded-lg">Compare</button>
+            <button data-view="delta" class="px-3 py-1 rounded-lg">Change</button>
+          </div>
+          <button id="replay" class="px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface text-sm flex items-center gap-1" title="Replay the before-to-after wipe"><span class="material-symbols-outlined text-[18px]">replay</span>Replay</button>
         </div>
       </div>
-      <div id="map" class="w-full h-[440px] rounded-lg overflow-hidden bg-surface-container-lowest"></div>
+      <div id="ba-bars" class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3"></div>
+      <div id="map" class="w-full h-[460px] rounded-lg overflow-hidden bg-surface-container-lowest"></div>
       <div id="legend" class="text-xs text-on-surface-variant mt-2"></div>
+      <p id="map-hint" class="text-xs text-on-surface-variant mt-1"></p>
     </div>
 
     <div class="bg-surface-container rounded-xl p-space-lg shadow-sm">
@@ -139,7 +143,7 @@ html.light-theme .leaflet-layer {
     { key: 'dust', field: 'dust_control', label: 'Road & construction dust', icon: 'construction' },
     { key: 'burning', field: 'burning_reduction', label: 'Open burning', icon: 'local_fire_department' },
   ];
-  const state = { traffic: 20, industry: 0, dust: 0, burning: 0, view: 'delta', last: null, history: [] };
+  const state = { traffic: 20, industry: 0, dust: 0, burning: 0, view: 'compare', split: 0.5, last: null, history: [] };
   const meta = await Twin.loadMeta();
   const stations = await Twin.stationList();
   Twin.setHeaderTime(meta.default_at.replace(' ', 'T') + ':00+05:30');
@@ -182,34 +186,161 @@ html.light-theme .leaflet-layer {
     return b;
   }
 
+  // ---- before / after comparison -------------------------------------------------
+  ['beforePane', 'afterPane', 'linePane'].forEach((n, i) => { const p = map.createPane(n); p.style.zIndex = 410 + i * 10; p.style.pointerEvents = 'none'; });
+  const mapEl = $('map');
+  const divider = document.createElement('div');
+  divider.id = 'ba-divider';
+  divider.style.cssText = 'position:absolute;top:0;bottom:0;left:50%;width:3px;margin-left:-1.5px;background:#f3f4ef;box-shadow:0 0 0 1px rgba(0,0,0,.35);z-index:1000;cursor:ew-resize;display:none';
+  divider.innerHTML = '<div style="position:absolute;top:50%;left:50%;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:999px;background:#f3f4ef;color:#111915;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.4);font:700 16px Inter,sans-serif">&#8644;</div>';
+  mapEl.appendChild(divider);
+  const mkLabel = (text, side, bg, fg) => {
+    const el = document.createElement('div');
+    el.className = 'ba-label';
+    el.textContent = text;
+    el.style.cssText = `position:absolute;top:10px;${side};z-index:1000;padding:4px 10px;border-radius:999px;background:${bg};color:${fg};font:700 11px Inter,sans-serif;letter-spacing:.08em;display:none;pointer-events:none`;
+    mapEl.appendChild(el);
+  };
+  mkLabel('BEFORE · BASELINE', 'left:56px', 'rgba(17,25,21,.85)', '#e2e3e0');
+  mkLabel('AFTER · SCENARIO', 'right:10px', '#adceb8', '#111915');
+  L.DomEvent.disableClickPropagation(divider);
+  L.DomEvent.disableScrollPropagation(divider);
+  let layers = [];
+  let anim = null;
+
+  function clip() {
+    const pane = map.getPane('afterPane');
+    const show = state.view === 'compare' && !!state.last;
+    divider.style.display = show ? '' : 'none';
+    mapEl.querySelectorAll('.ba-label').forEach((el) => (el.style.display = show ? '' : 'none'));
+    if (!show) { pane.style.clip = ''; return; }
+    const size = map.getSize();
+    const nw = map.containerPointToLayerPoint([0, 0]);
+    const se = map.containerPointToLayerPoint(size);
+    const x = nw.x + state.split * size.x;
+    pane.style.clip = `rect(${nw.y}px, ${se.x}px, ${se.y}px, ${x}px)`;
+    divider.style.left = (state.split * 100) + '%';
+  }
+  map.on('move zoom resize viewreset zoomend moveend', clip);
+
+  divider.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (anim) { cancelAnimationFrame(anim); anim = null; if (state.last) bars(state.last, 1); }
+    divider.setPointerCapture(e.pointerId);
+    const move = (ev) => {
+      const r = mapEl.getBoundingClientRect();
+      state.split = Math.min(0.98, Math.max(0.02, (ev.clientX - r.left) / r.width));
+      clip();
+    };
+    const up = () => { divider.removeEventListener('pointermove', move); divider.removeEventListener('pointerup', up); };
+    divider.addEventListener('pointermove', move);
+    divider.addEventListener('pointerup', up);
+  });
+
+  function bars(r, t) {
+    // t: 0 shows the before values, 1 the after values (animated during the wipe)
+    const items = [
+      ['Mean PM2.5 in area', r.baseline.mean_pm25, r.scenario.mean_pm25, 'µg/m³', 1],
+      [`Hotspot area above ${r.threshold_ugm3} µg/m³`, r.baseline.hotspot_area_km2, r.scenario.hotspot_area_km2, 'km²', 2],
+    ];
+    $('ba-bars').innerHTML = items.map(([label, B, S, unit, d]) => {
+      const now = B + (S - B) * t;
+      const pct = B ? ((S - B) / B) * 100 : 0;
+      const w = B ? Math.max(0, Math.min(100, (now / B) * 100)) : 0;
+      const tone = pct < 0 ? 'text-primary' : pct > 0 ? 'text-tertiary' : 'text-outline';
+      return `<div class="rounded-lg bg-surface-container-low p-3">
+        <div class="flex items-baseline justify-between gap-2 text-sm"><span class="text-on-surface-variant">${label}</span>
+          <span class="tabular-nums text-on-surface"><span class="text-outline">${Twin.fmt(B, d)} &rarr;</span> <b>${Twin.fmt(now, d)}</b> ${unit}
+          <span class="ml-1 font-semibold ${tone}">${t >= 1 ? Twin.signed(pct, 1) + '%' : ''}</span></span></div>
+        <div class="mt-2 flex flex-col gap-1">
+          <div class="flex items-center gap-2"><span class="text-[10px] uppercase tracking-wider text-outline w-12">Before</span><div class="h-2 flex-1 rounded-full bg-outline-variant"></div></div>
+          <div class="flex items-center gap-2"><span class="text-[10px] uppercase tracking-wider text-primary w-12">After</span><div class="h-2 flex-1"><div class="h-2 rounded-full bg-primary" style="width:${w.toFixed(2)}%"></div></div></div>
+        </div></div>`;
+    }).join('');
+  }
+
   function drawMap() {
     const r = state.last;
     if (!r) return;
-    if (layer) map.removeLayer(layer);
+    layers.forEach((l) => map.removeLayer(l));
+    layers = [];
     const cells = r.cells.map((c) => ({ lat: c[0], lon: c[1], b: c[2], s: c[3], d: c[3] - c[2] }));
-    const v = state.view;
-    layer = Twin.drawHeat(map, cells, v === 'delta' ? (c) => c.d : v === 'baseline' ? (c) => c.b : (c) => c.s, {
-      ramp: v === 'delta' ? Twin.DELTA_RAMP : Twin.PM_RAMP,
-      contours: v === 'delta' ? [-1, -0.4] : Twin.PM_CONTOURS,
-      alphaFn: v === 'delta' ? (c) => Math.min(1, 0.08 + Math.abs(c.d) / 0.35) : undefined,
-      tooltip: (c) => `Baseline <b>${Twin.fmt(c.b)}</b> → scenario <b>${Twin.fmt(c.s)}</b> µg/m³<br/>Change ${Twin.signed(c.d, 2)} µg/m³`,
-    });
+    const tip = (c) => `Before <b>${Twin.fmt(c.b)}</b> &rarr; after <b>${Twin.fmt(c.s)}</b> µg/m³<br/>Change ${Twin.signed(c.d, 2)} µg/m³`;
+    const thr = r.threshold_ugm3;
+    if (state.view === 'compare') {
+      layers.push(Twin.drawHeat(map, cells, (c) => c.b, { pane: 'beforePane', noEvents: true }));
+      layers.push(Twin.drawHeat(map, cells, (c) => c.s, { pane: 'afterPane', tooltip: tip }));
+    } else {
+      layers.push(Twin.drawHeat(map, cells, (c) => c.d, {
+        pane: 'afterPane', ramp: Twin.DELTA_RAMP, contours: [-1, -0.4],
+        alphaFn: (c) => Math.min(1, 0.08 + Math.abs(c.d) / 0.35), tooltip: tip,
+      }));
+    }
+    // cells that were above the standard before and are at or below it after: the hotspot area the plan clears
+    const cleared = cells.filter((c) => c.b > thr && c.s <= thr).length;
+    if (cleared) {
+      layers.push(Twin.drawHeat(map, cells, (c) => (c.b > thr && c.s <= thr ? 1 : NaN), {
+        pane: 'afterPane', noEvents: true, ramp: [[0, [60, 225, 140]], [1, [60, 225, 140]]], contours: [], opacity: 0.85, feather: 0.01,
+      }));
+    }
+    state.cleared = cleared;
+    // hotspot outlines: before (white) and after (red), both across the whole map
+    layers.push(Twin.drawHeat(map, cells, (c) => c.b, { pane: 'linePane', noEvents: true, ramp: null, contours: [thr], contourOnly: thr, contourColor: [245, 245, 240], contourWidth: 2, upscale: 12 }));
+    layers.push(Twin.drawHeat(map, cells, (c) => c.s, { pane: 'linePane', noEvents: true, ramp: null, contours: [thr], contourOnly: thr, contourColor: [255, 92, 80], contourWidth: 2, upscale: 12 }));
+
     if (areaCircle) map.removeLayer(areaCircle);
     const a = r.area;
     if (a.type === 'station') {
-      const s = stations.find((x) => x.station_id === a.station_id);
-      areaCircle = L.circle([s.lat, s.lon], { radius: a.radius_km * 1000, color: '#adceb8', weight: 1.5, fill: false, dashArray: '4 4' }).addTo(map);
-      map.fitBounds(areaCircle.getBounds(), { padding: [20, 20] });
-    } else {
+      const st = stations.find((x) => x.station_id === a.station_id);
+      areaCircle = L.circle([st.lat, st.lon], { radius: a.radius_km * 1000, color: '#adceb8', weight: 1.5, fill: false, dashArray: '4 4' }).addTo(map);
+      if (!state.fitted) map.fitBounds(areaCircle.getBounds(), { padding: [20, 20] });
+    } else if (!state.fitted) {
       map.fitBounds(L.latLngBounds(cells.map((c) => [c.lat, c.lon])));
     }
+    state.fitted = true;
     document.querySelectorAll('#view-toggle button').forEach((b) =>
-      (b.className = 'px-3 py-1 rounded-lg ' + (b.dataset.view === v ? 'bg-primary text-on-primary font-medium' : 'text-on-surface-variant hover:text-on-surface')));
-    if (v === 'delta') {
+      (b.className = 'px-3 py-1 rounded-lg ' + (b.dataset.view === state.view ? 'bg-primary text-on-primary font-medium' : 'text-on-surface-variant hover:text-on-surface')));
+    const key = '<span class="inline-flex items-center gap-1 mr-3"><span style="display:inline-block;width:16px;height:3px;background:#f5f5f0;outline:1px solid #0004"></span>hotspot before</span><span class="inline-flex items-center gap-1 mr-3"><span style="display:inline-block;width:16px;height:3px;background:#ff5c50"></span>hotspot after</span>' +
+      (state.cleared ? `<span class="inline-flex items-center gap-1 mr-2"><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#3ce18c"></span>cleared: ${state.cleared} cells (~${(state.cleared * 0.25).toFixed(2)} km²) drop to ≤ ${thr} µg/m³</span>` : '<span class="mr-2">no cell crosses the standard in this run</span>');
+    if (state.view === 'delta') {
       Twin.rampLegend($('legend'), Twin.DELTA_RAMP, [-3, -1.2, -0.4, 0, 0.5], 'µg/m³ change', 'Larger cut ← → increase');
-    } else Twin.legend($('legend'));
+      $('map-hint').innerHTML = key + '· green shows where modeled PM2.5 falls.';
+    } else {
+      Twin.legend($('legend'));
+      $('map-hint').innerHTML = key + '· drag the &#8644; divider to compare before and after.';
+    }
+    clip();
   }
-  document.querySelectorAll('#view-toggle button').forEach((b) => (b.onclick = () => { state.view = b.dataset.view; drawMap(); }));
+
+  function playWipe() {
+    const r = state.last;
+    if (!r) return;
+    if (anim) cancelAnimationFrame(anim);
+    if (state.view !== 'compare') { state.view = 'compare'; drawMap(); }
+    const ease = (x) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
+    const steps = [{ from: 1, to: 0, ms: 1500, bar: true }, { hold: 450 }, { from: 0, to: 0.5, ms: 700 }];
+    let i = 0;
+    let t0 = performance.now();
+    const tick = (now) => {
+      const st = steps[i];
+      const k = Math.min(1, (now - t0) / (st.ms || st.hold));
+      if (!st.hold) { state.split = st.from + (st.to - st.from) * ease(k); clip(); }
+      if (st.bar) bars(r, ease(k));
+      if (k >= 1) { i++; t0 = now; if (i >= steps.length) { anim = null; bars(r, 1); return; } }
+      anim = requestAnimationFrame(tick);
+    };
+    bars(r, 0);
+    state.split = 1;
+    clip();
+    anim = requestAnimationFrame(tick);
+  }
+  $('replay').onclick = playWipe;
+  document.querySelectorAll('#view-toggle button').forEach((b) => (b.onclick = () => {
+    state.view = b.dataset.view;
+    drawMap();
+    if (state.last) bars(state.last, 1);
+  }));
 
   function row(label, b, s, c, unit, d = 1) {
     const cls = c === null ? '' : c < 0 ? 'text-primary' : c > 0 ? 'text-tertiary' : '';
@@ -245,7 +376,9 @@ html.light-theme .leaflet-layer {
       state.history.unshift({ name: leverText(r.reductions_pct), area: $('area').selectedOptions[0].textContent, d: C.mean_pm25, pct: r.percent_change_mean_pm25, hot: C.hotspot_area_km2 });
       $('history').innerHTML = '<table class="w-full text-sm tabular-nums">' + state.history.slice(0, 8).map((h) =>
         `<tr class="border-t border-outline-variant/40"><td class="py-1.5 text-on-surface">${Twin.esc(h.name)}</td><td class="py-1.5 text-on-surface-variant">${Twin.esc(h.area)}</td><td class="py-1.5 text-right">${Twin.signed(h.d, 2)} µg/m³ (${Twin.signed(h.pct, 2)}%)</td><td class="py-1.5 text-right">${Twin.signed(h.hot, 2)} km²</td></tr>`).join('') + '</table>';
+      state.fitted = false;
       drawMap();
+      playWipe();
     } catch (e) {
       Twin.error($('warnings'), e);
     } finally {

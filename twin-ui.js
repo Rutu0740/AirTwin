@@ -139,22 +139,26 @@
     const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
     const ctx = cv.getContext('2d'), img = ctx.createImageData(W, H), px = img.data;
     const band = (v) => { let b = 0; while (b < contours.length && v > contours[b]) b++; return b; };
+    const cw = opts.contourWidth || 1;   // isoline thickness in px
     for (let p = 0; p < W * H; p++) {
       const v = field[p];
       if (Number.isNaN(v)) continue;
       let c = stops === null ? [255, 180, 171] : T.ramp(stops, v), a = baseAlpha * alpha[p];
       if (contours.length) {
         const x = p % W, b = band(v);
-        const r = x + 1 < W ? field[p + 1] : v, d = p + W < W * H ? field[p + W] : v;
-        const edge = (!Number.isNaN(r) && band(r) !== b) || (!Number.isNaN(d) && band(d) !== b);
-        if (opts.contourOnly !== undefined) { if (!edge) continue; c = [255, 120, 110]; a = 0.95 * alpha[p]; }
+        let edge = false;
+        for (let o = 1; o <= cw && !edge; o++) {
+          const r = x + o < W ? field[p + o] : v, d = p + o * W < W * H ? field[p + o * W] : v;
+          edge = (!Number.isNaN(r) && band(r) !== b) || (!Number.isNaN(d) && band(d) !== b);
+        }
+        if (opts.contourOnly !== undefined) { if (!edge) continue; c = opts.contourColor || [255, 120, 110]; a = 0.95 * alpha[p]; }
         else if (edge) { c = c.map((q) => q * 0.55); a = Math.min(1, a + 0.15); }
       } else if (opts.contourOnly !== undefined) continue;
       px[p * 4] = c[0]; px[p * 4 + 1] = c[1]; px[p * 4 + 2] = c[2]; px[p * 4 + 3] = Math.round(a * 255);
     }
     ctx.putImageData(img, 0, 0);
     const bounds = [[latMin - dLat / 2, lonMin - dLon / 2], [latMax + dLat / 2, lonMax + dLon / 2]];
-    const overlay = L.imageOverlay(cv.toDataURL('image/png'), bounds, { className: 'twin-heat', interactive: false });
+    const overlay = L.imageOverlay(cv.toDataURL('image/png'), bounds, { className: 'twin-heat', interactive: false, pane: opts.pane || 'overlayPane' });
     const group = L.layerGroup([overlay]);
     const pick = (ll) => {
       const i = nI - 1 - Math.round((ll.lat - latMin) / dLat), j = Math.round((ll.lng - lonMin) / dLon);
@@ -170,6 +174,7 @@
       if (!map.hasLayer(tip)) tip.addTo(map);
     };
     const onClick = (e) => { const c = opts.onClick && pick(e.latlng); if (c) opts.onClick(c); };
+    if (opts.noEvents) { group.addTo(map); return group; }
     group.on('add', () => { map.on('mousemove', onMove); map.on('click', onClick); });
     group.on('remove', () => { map.off('mousemove', onMove); map.off('click', onClick); map.closeTooltip(tip); });
     group.addTo(map);
